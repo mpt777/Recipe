@@ -1,0 +1,41 @@
+version: '3.4'
+
+volumes:
+  data:
+services:
+  server:
+    image: server
+    volumes:
+      - /server/node_modules
+    build:
+      context: server
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      MONGO_URI: mongodb://docker:mongopw@mongodb:27017
+    ports:
+      - 3000:3000
+  client:
+    image: client
+    volumes:
+      - /client/node_modules
+    build:
+      context: client
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 8080:8080
+    depends_on:
+      - server
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=docker
+      - MONGO_INITDB_ROOT_PASSWORD=mongopw
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db
+  # database:
+  #   image: mongo
