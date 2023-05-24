@@ -1,13 +1,15 @@
 <script>
-import "@/styles/normalize.css";
-import "@/styles/base.css";
+import "@/assets/styles/normalize.css";
+import "@/assets/styles/base.css";
 import axios from "axios";
 import ButtonCounter from './components/ButtonCounter.vue';
+import RecipePanel from './components/RecipePanel.vue';
 import SideNav from './components/SideNav.vue';
 export default {
   components: {
     ButtonCounter,
-    SideNav
+    SideNav,
+    RecipePanel
   },
   name: "App",
   data() {
@@ -53,7 +55,12 @@ export default {
     </div>
     
     <div class="content">
-    <h3>Todo Listsss</h3>
+      <div class="d-grid d-grid--flow-column d-grid--gap-1rem">
+        <RecipePanel />
+        <RecipePanel />
+        <RecipePanel />
+      </div>
+    <h3>Todo List</h3>
     <ButtonCounter />
   
     <div>
@@ -62,7 +69,7 @@ export default {
       <br />
       <input class="input" v-model="description" type="text" name="description"  placeholder="Enter Description" />
       <br />
-      <button class="submit-button btn--accent" @click="addTodo">Add Todo</button>
+      <button class="submit-button btn--accent" @click="addTodo">Add Todos</button>
     </form>
   </div>
     <div class="todo-container">
