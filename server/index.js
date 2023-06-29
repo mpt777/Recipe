@@ -3,7 +3,10 @@ const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+
 const TodoListRoutes = require('./routes/api/todolist')
+const RecipeRoutes = require('./routes/api/recipe/recipe')
+
 const path = require('path')
 require('dotenv').config();
 
@@ -20,5 +23,6 @@ mongoose
     .catch((err) => console.log(err))
 
 app.use('/api/todoList', TodoListRoutes)
+app.use('/api/recipe', RecipeRoutes)
 
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))

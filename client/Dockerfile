@@ -5,4 +5,4 @@ COPY package*.json ./
 RUN npm install
 COPY --chown=node:node . .
 USER node
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "dev"]
