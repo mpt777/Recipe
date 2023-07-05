@@ -1,9 +1,11 @@
 <script>
     import { onMount } from "svelte";
+    import iapi from "$utils/iapi";
     import api from "$utils/api";
     import Panel from '$components/home/Panel.svelte';
 
-	let recipes = [
+	let recipes = []
+    /*[
         {
             "title":"Avacado Toast",
             "description":"Avacados used to mean balls"
@@ -13,6 +15,7 @@
             "description":"YOu want this and that"
         }
     ];
+    */
 
     let title = "";
     let description = "";
@@ -22,7 +25,7 @@
     });
     async function get() {
         try {
-            const response = await api.get('recipe'); // Make an API request
+            const response = await iapi('recipe'); // Make an API request
             recipes = response.data;
             console.log(response);
         } catch (error) {

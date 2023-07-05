@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+import { Schema, model } from 'mongoose';
 
 const RecipeSchema = new Schema({
     title: {
@@ -11,6 +11,4 @@ const RecipeSchema = new Schema({
     },
 })
 
-const Recipe = model('recipe', RecipeSchema)
-
-module.exports = Recipe
+export const Recipe = model('recipe', RecipeSchema)

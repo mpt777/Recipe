@@ -1,14 +1,18 @@
-const express = require('express')
+import express from 'express'
 const app = express()
-const mongoose = require('mongoose')
-const cors = require('cors')
-const bodyParser = require('body-parser')
+import mongoose from 'mongoose'
+import cors from 'cors'
+import bodyParser from 'body-parser'
 
-const TodoListRoutes = require('./routes/api/todolist')
-const RecipeRoutes = require('./routes/api/recipe/recipe')
+import { router as TodoListRoutes } from './routes/api/todolist.js'
+import { router as RecipeRoutes } from './routes/api/recipe/recipe.js'
+import { router as AuthRoutes } from './routes/api/auth/auth.js'
+import { router as ImageRoutes } from './routes/api/image/image.js'
 
-const path = require('path')
-require('dotenv').config();
+import path from 'path'
+
+import dotenv from 'dotenv';
+dotenv.config()
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -24,5 +28,7 @@ mongoose
 
 app.use('/api/todoList', TodoListRoutes)
 app.use('/api/recipe', RecipeRoutes)
+app.use('/api/auth', AuthRoutes)
+app.use('/api/image', ImageRoutes)
 
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))

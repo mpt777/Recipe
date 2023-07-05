@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+import { Schema, model } from 'mongoose'
 
 const TodoSchema = new Schema({
     title: {
@@ -11,6 +11,4 @@ const TodoSchema = new Schema({
     },
 })
 
-const Todo = model('todo', TodoSchema)
-
-module.exports = Todo
+export const Todo = model('todo', TodoSchema)

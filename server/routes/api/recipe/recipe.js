@@ -1,7 +1,7 @@
-const { Router } = require('express')
-const Recipe = require('../../../models/recipe/Recipe')
+import { Router } from 'express'
+import { Recipe } from '../../../models/recipe/Recipe.js'
 
-const router = Router()
+export const router = Router()
 
 router.get('/', async (req, res) => {
     try {
@@ -45,5 +45,3 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 })
-
-module.exports = router

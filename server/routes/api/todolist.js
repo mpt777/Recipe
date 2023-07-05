@@ -1,7 +1,7 @@
-const { Router } = require('express')
-const Todo = require('../../models/Todo')
+import { Router } from 'express'
+import { Todo } from '../../models/Todo.js'
 
-const router = Router()
+export const router = Router()
 
 router.get('/', async (req, res) => {
     try {
@@ -34,5 +34,3 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 })
-
-module.exports = router
