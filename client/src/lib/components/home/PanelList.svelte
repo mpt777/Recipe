@@ -23,11 +23,14 @@
     onMount(async () => {
         get();
     });
+
     async function get() {
         try {
             const response = await iapi('recipe'); // Make an API request
-            recipes = response.data;
-            console.log(response);
+            recipes = await response.json();
+
+            // const response = await api.get('recipe'); // Make an API request
+            //recipes = response.data;
         } catch (error) {
             console.error('API request failed:', error);
         }
@@ -45,7 +48,10 @@
     }
 
     async function remove(item, i) {
-        await api.delete("recipe/" + item._id);
+        //await api.delete("recipe/" + item._id);
+        await iapi("recipe/" + item._id, {
+            method:"DELETE"
+        })
         recipes.splice(i, 1);
         recipes = recipes;
     }

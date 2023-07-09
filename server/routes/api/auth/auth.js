@@ -6,29 +6,56 @@ export const router = Router()
 
 router.post('/login', async (req, res) => {
     try {
-        let username = req.body.username;
-        let password = req.body.password;
-        const user = await User.findOne({ username: username });
-        if (!user) throw new Error(`No User Found, ${username} ${password}`);
-        if (user.password !== password) throw new Error('Password Incorrect')
-        const token = generateAccessToken({ username: username });
-        res.status(200).json(token);
-    } catch (error) {
-        //return next(error);
+        const user = await User.findOne({ username: req.body.username });
+        if (user === null) { 
+            return res.status(400).send({ 
+                message : "User not found."
+            }); 
+        } 
+        else { 
+            if (user.validPassword(req.body.password)) { 
+                return res.status(201).send({ 
+                    token : generateAccessToken(user.username),
+                    message : "User Logged In", 
+                }) 
+            } 
+            else { 
+                return res.status(400).send({ 
+                    message : "Wrong Password"
+                }); 
+            } 
+        } 
+    } catch (error){
         res.status(401).json({ message: error.message })
     }
 })
 
 router.post('/signup', async (req, res) => {
-    const newUser = new User(req.body)
-    
     try {
-        const user = await newUser.save()
-        if (!user) throw new Error('Something went wrong saving')
-        const token = generateAccessToken({ username: user.username });
-        res.status(200).json(token)
-    } catch (error) {
-        res.status(500).json({ message: error.message })
+        // Creating empty user object 
+        let newUser = new User(); 
+
+        // Initialize newUser object with request data 
+        newUser.username = req.body.username, 
+        newUser.email = req.body.email,
+
+        newUser.password=req.body.password
+
+        // Call setPassword function to hash password 
+        newUser.setPassword(req.body.password); 
+
+        // Save newUser object to database 
+
+        const user = await newUser.save() 
+        
+        return res.status(201).send({ 
+            token : generateAccessToken(user.username),
+            message : "User Added", 
+        }); 
+    } catch (error){
+        return res.status(400).send({ 
+            message : "Failed to add user."
+        }); 
     }
 })
 

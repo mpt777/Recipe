@@ -9,6 +9,10 @@ const RecipeSchema = new Schema({
         type: String,
         required: true,
     },
+    image:{
+        type: Schema.Types.ObjectId, 
+        ref: 'image'
+    }
 })
 
 export const Recipe = model('recipe', RecipeSchema)

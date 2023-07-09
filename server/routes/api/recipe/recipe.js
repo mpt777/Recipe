@@ -1,9 +1,10 @@
 import { Router } from 'express'
 import { Recipe } from '../../../models/recipe/Recipe.js'
+import {authenticateToken, generateAccessToken} from '../../../middleware/auth.js'
 
 export const router = Router()
 
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
     try {
         const recipeList = await Recipe.find()
         if (!recipeList) throw new Error('No List found')

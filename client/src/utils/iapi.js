@@ -11,5 +11,5 @@
 
 
 export default async function iapi(endpoint, data){
-    return fetch(`http://localhost:8080/api`, data)
+    return fetch(`http://localhost:8080/api/${endpoint}`, data)
 }
