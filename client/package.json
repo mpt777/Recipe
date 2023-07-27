@@ -10,6 +10,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.20.4",
+		"@vavite/node-loader": "^1.8.3",
 		"autoprefixer": "^10.4.14",
 		"postcss": "^8.4.24",
 		"svelte": "^4.0.0",

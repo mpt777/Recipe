@@ -4,7 +4,7 @@ import {authenticateToken, generateAccessToken} from '../../../middleware/auth.j
 
 export const router = Router()
 
-router.get('/', authenticateToken, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const recipeList = await Recipe.find()
         if (!recipeList) throw new Error('No List found')
@@ -25,7 +25,7 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
     const newR = new Recipe(req.body)
     try {
         const recipe = await newR.save()

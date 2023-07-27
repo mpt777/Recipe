@@ -1,35 +1,10 @@
-import { setAuthToken } from "$utils/auth";
-import { fail, redirect } from "@sveltejs/kit";
+import { signupUser } from "$scripts/auth.js";
 export async function load({ fetch }) {
-    
 }
 
 export const actions = {
-    default: async({ fetch, cookies, request}) => {
-        const data = await request.formData();
-
-        let jsonData = {};
-        data.forEach((value, key) => jsonData[key] = value);
-
-        const response = await fetch("http://server:3000/api/auth/signup", {
-            method: "POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify(jsonData)
-        });
-
-
-        let responseData = await response.json()
-
-        if (response.ok){
-            setAuthToken(cookies, responseData.token)
-        }
-        else {
-            return fail(400, {"message": responseData.message})
-        }
-
-        return {success: true};
+    default: async({ event }) => {
+        return await signupUser({ event })
         //throw redirect(303, "/");
     }
 }

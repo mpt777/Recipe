@@ -18,7 +18,7 @@ services:
     ports:
       - 3000:3000
       - 9229:9229
-    command: node --inspect=0.0.0.0:9229 .
+    command: nodemon --inspect=0.0.0.0:9229 .
   client:
     image: client
     volumes:
@@ -32,6 +32,8 @@ services:
       NPM_CONFIG_UNSAFE_PERM: true
     ports:
       - 8080:8080
+      # - 9228:9228
+    # command: node --experimental-loader=@vavite/node-loader
     depends_on:
       - server
   mongodb:

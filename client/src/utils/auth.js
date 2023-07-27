@@ -1,4 +1,3 @@
-
 export function setAuthToken(cookies, token){
     cookies.set('Authorization', `Bearer ${token}`, {
         httpOnly: true,
@@ -6,7 +5,11 @@ export function setAuthToken(cookies, token){
         secure: true,
         sameSite: 'strict',
         maxAge: 60 * 60 * 24 // 1 day
-    });
+    });    
+}
+
+export function getAuthToken(cookies){
+    return cookies.get('Authorization');    
 }
 
 

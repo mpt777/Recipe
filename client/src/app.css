@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-.required {
-    content:"*";
+.required:after {
+    content:" *";
     color:red;
- }
+}
+
+.main-container { 
+    @apply p-6 h-full overflow-auto
+}

@@ -5,29 +5,19 @@
     import { enhance } from '$app/forms';
   
     import CenterPanel from '$components/auth/CenterPanel.svelte';
+    import Field from "$components/utils/form/Field.svelte";
     import Message from '$components/utils/Message.svelte';
   
 </script>
   
 <CenterPanel>
-    <form action="/auth/signup" method="POST">
+    <form method="POST">
         <Message message={ form?.message } />
         <h2 class="text-xl font-semibold mb-4 text-center">Signup</h2>
 
-        <div class="group">
-            <label for="username " classs="required">Username</label>
-            <input type="username" name="username" id="username" placeholder="Username" autocomplete="username" class="input input-bordered w-full"/>
-        </div>
-
-        <div class="group">
-            <label for="email " classs="required">Email</label>
-            <input type="email" name="email" id="email" placeholder="Email" autocomplete="email" class="input input-bordered w-full"/>
-        </div>
-        
-        <div class="group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" placeholder="Password" autocomplete="new-password" required class="input input-bordered w-full"/>
-        </div>
+        <Field name="username" placeholder="Username" label="Username" autocomplete="username" required=true/>
+        <Field name="email" placeholder="Email" label="Email" autocomplete="email" required=true/>
+        <Field name="password" placeholder="Password" label="Password" autocomplete="new-password" type="password" required=true/>
 
         <br>
         
