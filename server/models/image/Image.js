@@ -9,6 +9,14 @@ const ImageSchema = new Schema({
         type: String,
         required: true,
     },
+    name: {
+        type: String,
+        required: true,
+    },
+    alt: {
+        type: String,
+        required: false,
+    },
 })
 
 export const Image = model('image', ImageSchema)

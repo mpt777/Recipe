@@ -1,6 +1,8 @@
 import { Router } from 'express'
-import { Image } from '../../../models/image/Image.js'
+import { Image } from '#src/models/image/Image'
 import multer from "multer";
+import path from "path";
+
 
 export const router = Router()
 
@@ -30,16 +32,47 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
   
   // Handle file upload request
-router.post('/upload', upload.single('file'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).send('No files were uploaded.');
+router.post('/upload', upload.single('file'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).send('No files were uploaded.');
+        }
+        const image = await new Image({
+            title: req.body.title || req.file.filename, 
+            src:req.file.path, 
+            name:req.file.fileName, 
+            alt:req.body.alt || ""
+        }).save();
+
+        res.status(200).send('File uploaded successfully!');
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
     }
-
-    const image = new Image({title: req.body.title, src:req.file.filename});
-    image.save();
-
-    res.send('File uploaded successfully!');
 });
+
+router.get('/file/:id', async (req, res, next) => {
+    const { id } = req.params
+    try {
+        const image = await Image.findById(id)
+        if (!image) throw new Error('No Image found')
+        // res.sendFile() // or any other way to get a readable stream
+     
+        const fileName = appRoot + "/" + image.src;
+        res.sendFile(fileName, function (err) {
+            if (err) {
+                next(err);
+            } else {
+                console.log('Sent:', fileName);
+                next();
+            }
+        });
+
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+  })
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params

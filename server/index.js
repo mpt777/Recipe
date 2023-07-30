@@ -8,10 +8,14 @@ import { router as TodoListRoutes } from './routes/api/todolist.js'
 import { router as RecipeRoutes } from './routes/api/recipe/recipe.js'
 import { router as AuthRoutes } from './routes/api/auth/auth.js'
 import { router as ImageRoutes } from './routes/api/image/image.js'
+import { fileURLToPath } from 'url';
 
 import path from 'path'
 
 import dotenv from 'dotenv';
+
+global.appRoot = path.dirname(fileURLToPath(import.meta.url));
+
 dotenv.config()
 
 app.use(cors())

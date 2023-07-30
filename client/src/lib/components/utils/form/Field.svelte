@@ -34,6 +34,16 @@
         class="input input-bordered w-full max-w-xs {classes}"
         bind:value
         on:input={handleInput} />
+    {:else if type === "file"}
+        <input
+        {...inputProperties}
+        placeholder={placeholder}
+        autocomplete={autocomplete}
+        required={required}
+        {name}
+        class=" {classes}"
+        bind:value
+        on:input={handleInput} />
     {:else}
         <input
         {...inputProperties}
