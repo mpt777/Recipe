@@ -1,59 +1,50 @@
 <script>
+    import { page } from '$app/stores';
     export let data;
 </script>
 <div class="flex h-screen">
     <!-- Sidebar -->
-    <div class="bg-gray-800 text-white w-64">
-        <div class="flex justify-between flex-col h-full p-4">
-            <div class="">
-                <ul>
+    <div class="flex justify-between flex-col h-full menu bg-base-200 w-56 rounded-box">
+        <div>
+            <ul class="">
+                <li><a href="/">Home</a></li>
+                <li><a href="/">Expore</a></li>
+                <li><a href="/">Recipes</a></li>
+                <!-- <li>
+                <details open>
+                    <summary>Parent</summary>
+                    <ul>
+                    <li><a>level 2 item 1</a></li>
+                    <li><a>level 2 item 2</a></li>
                     <li>
-                        <a href="/">
-                            Home
-                        </a>
+                        <details open>
+                        <summary>Parent</summary>
+                        <ul>
+                            <li><a>level 3 item 1</a></li>
+                            <li><a>level 3 item 2</a></li>
+                        </ul>
+                        </details>
                     </li>
-                    <li>
-                        <a href="/">
-                            Explore
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            Recipies
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="">
-                {#if data.user}                
-                <ul>
-                    <li>
-                    Hi {data.user.username}
-                    </li>
-                    <li>
-                        <a href="/auth/logout">
-                        Logout
-                        </a>
-                    </li>
-                </ul>
-                {:else}
-                <ul>
-                    <li>
-                        <a href="/auth/login">
-                            <i class="ri-user-line"></i>
-                            Login 
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/auth/signup">
-                            Signup
-                        </a>
-                    </li>
-                </ul>
-                {/if}
-
-            </div>
+                    </ul>
+                </details>
+                </li>
+                <li><a>Item 3</a></li> -->
+            </ul>
+        </div>
+        <div>
+            <ul>
+            {#if data.user}                
+                <li><a href="/profile">Hi {data.user.username}</a></li>
+                <form method="POST" action="/auth/logout">
+                <li>
+                    <button>Logout</button>
+                </li>
+                </form>
+            {:else}
+                <li><a href="/auth/login?redirectTo={$page.url.pathname}"><i class="ri-user-line"></i>Login </a></li>
+                <li><a href="/auth/signup?redirectTo={$page.url.pathname}">Signup</a></li>
+            {/if}
+            </ul>
         </div>
     </div>
   

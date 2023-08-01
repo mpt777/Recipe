@@ -1,19 +1,28 @@
+import { redirect } from '@sveltejs/kit'
+
 export async function handle({ event, resolve }) {
     // get cookies from browser
-    const authToken = event.cookies.get('authorization')
+    const authToken = event.cookies.get('Authorization')
 
-    if (!authToken) {
-      // if there is no session load page as normal
-      return await resolve(event)
+    if (authToken) {
+      // get user from endpoint
+      const response = await event.fetch("http://server:3000/api/auth/user/current");
+      const user = await response.json()
+    
+      // // if `user` exists set `events.local`
+      if (user) {
+        event.locals.user = user
+      }
     }
-  
-    // // find the user based on the session
-    const user = await fetch("http://server:3000/auth")
-  
-    // // if `user` exists set `events.local`
-    if (user) {
-      event.locals.user = {
-        name: user.username,
+
+    if (event.url.pathname.startsWith("/profile")) {
+      if (!event.locals.user){
+        throw redirect(303, "/")
+      }
+    }
+    if (event.url.pathname.startsWith("/admin")) {
+      if (!event.locals.user){
+        throw redirect(303, "/")
       }
     }
   
