@@ -3,11 +3,11 @@ import { Schema, model } from 'mongoose';
 const RecipeSchema = new Schema({
     title: {
         type: String,
-        required: true,
+        required: false,
     },
     description: {
         type: String,
-        required: true,
+        required: false,
     },
     image:{
         type: Schema.Types.ObjectId, 

@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body { @apply h-full overflow-hidden; }
+
 .required:after {
     content:" *";
     color:red;

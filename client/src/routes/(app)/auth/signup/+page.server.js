@@ -1,4 +1,4 @@
-import { signupUser } from "$scripts/auth.js";
+import { signupUser } from "$scripts/auth";
 export async function load({ fetch }) {
 }
 

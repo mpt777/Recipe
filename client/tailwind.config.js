@@ -1,40 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    './src/**/*.{html,js,svelte,ts}'
+    './src/**/*.{html,js,svelte,ts}',
+      require('path').join(require.resolve(
+        '@skeletonlabs/skeleton'),
+        '../**/*.{html,js,svelte,ts}'
+      )
   ],
   theme: {
     extend: {}
   },
-  daisyui: {
-    themes: [
-      "winter",
-      {
-        mytheme: {
-          "primary": "#570DF8",
-                  
-          "secondary": "#F000B8",
-                  
-          "accent": "#37CDBE",
-                  
-          "neutral": "#3D4451",
-                  
-          "base-100": "#FFFFFF",
-                  
-          "info": "#3ABFF8",
-                  
-          "success": "#36D399",
-                  
-          "warning": "#FBBD23",
-                  
-          "error": "#F87272",
-        },
-      },
-    ],
-  },
-  plugins: [require("daisyui")],
+  
+  plugins: [
+    require('@tailwindcss/forms'),
+    ...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')()
+  ],
   safelist: [
-    'alert-warning',
+    'variant-filled-success',
   ],
 };
 

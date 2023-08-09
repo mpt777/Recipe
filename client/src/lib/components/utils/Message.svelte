@@ -4,7 +4,7 @@
 </script>
 
 {#if message}
-<div class="alert alert-{level}">
+<div class="alert variant-filled-{level}">
     {message}
 </div>
 {/if }

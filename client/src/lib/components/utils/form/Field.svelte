@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
     export let value = "";
     export let placeholder = "";
     export let label = "";
@@ -11,7 +13,7 @@
     let requiredClass = required ? "required" : ""; 
 
     $: hasErrors = errors && errors[name];
-    $: classes = hasErrors ? "input with-error" : "input";
+    $: classes = hasErrors ? "with-error" : "";
 
     const handleInput = e => {
         value = e.target.value;
@@ -19,7 +21,7 @@
 
 </script>
 
-<div class="form-control w-full max-w-xs">
+<div class="form-control w-full">
     <label class="label" for="{name}">
         <span class="label-text {requiredClass}">{label}</span>
         <!-- <span class="label-text-alt">Top Right label</span> -->
@@ -31,7 +33,7 @@
         autocomplete={autocomplete}
         required={required}
         {name}
-        class="input input-bordered w-full max-w-xs {classes}"
+        class="textarea {classes}"
         bind:value
         on:input={handleInput} />
     {:else if type === "file"}
@@ -51,14 +53,14 @@
         autocomplete={autocomplete}
         required={required}
         {name}
-        class="input input-bordered w-full max-w-xs {classes}"
+        class="input {classes}"
         bind:value
         on:input={handleInput} />
     {/if}
-    <label class="label" for="{name}">
+    <!-- <label class="label" for="{name}"> -->
         <!-- <span class="label-text-alt">Bottom Left label</span> -->
         <!-- <span class="label-text-alt">Bottom Right label</span> -->
-    </label>
+    <!-- </label> -->
     {#if hasErrors}
     <p class="text-red-500 text-xs italic mt-3">{errors[name].message}</p>
     {/if}

@@ -1,6 +1,6 @@
-import { loginUser } from "$scripts/auth.js";
+import { loginUser } from "$scripts/auth";
+
 export async function load({ fetch }) {
-    console.log("here")
 }
 
 export const actions = {

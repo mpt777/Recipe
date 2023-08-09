@@ -15,14 +15,16 @@
         <Message message={ form?.message } />
         <h2 class="text-xl font-semibold mb-4 text-center">Signup</h2>
 
-        <Field name="username" placeholder="Username" label="Username" autocomplete="username" required=true/>
-        <Field name="email" placeholder="Email" label="Email" autocomplete="email" required=true/>
-        <Field name="password" placeholder="Password" label="Password" autocomplete="new-password" type="password" required=true/>
+        <div class="space-y-4">
+            <Field name="username" placeholder="Username" label="Username" autocomplete="username" required=true/>
+            <Field name="email" placeholder="Email" label="Email" autocomplete="email" required=true/>
+            <Field name="password" placeholder="Password" label="Password" autocomplete="new-password" type="password" required=true/>
+        </div>
 
         <br>
         
         <div class="submit-container text-center">
-            <button class="btn btn-primary" type="submit" >Signup</button>
+            <button class="btn variant-filled-primary" type="submit" >Signup</button>
         </div>
 
         {#if form?.success }

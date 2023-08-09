@@ -11,7 +11,11 @@ const RecipeSchema = new Schema({
     },
     image:{
         type: Schema.Types.ObjectId, 
-        ref: 'image'
+        ref: 'Image'
+    },
+    createdBy:{
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
     }
 })
 

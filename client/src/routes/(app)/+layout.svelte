@@ -1,55 +1,55 @@
 <script>
-    import { page } from '$app/stores';
-    export let data;
+	import { AppShell, AppBar, Drawer, drawerStore, Toast, Avatar} from '@skeletonlabs/skeleton';
+	import { page } from '$app/stores';
+	import Navigation from '$components/nav/Navigation.svelte';
+	import ToastMessage from '$components/utils/ToastMessage.svelte';
+
+	function drawerOpen() {
+		drawerStore.open();
+	}
+
 </script>
-<div class="flex h-screen">
-    <!-- Sidebar -->
-    <div class="flex justify-between flex-col h-full menu bg-base-200 w-56 rounded-box">
-        <div>
-            <ul class="">
-                <li><a href="/">Home</a></li>
-                <li><a href="/">Expore</a></li>
-                <li><a href="/">Recipes</a></li>
-                <!-- <li>
-                <details open>
-                    <summary>Parent</summary>
-                    <ul>
-                    <li><a>level 2 item 1</a></li>
-                    <li><a>level 2 item 2</a></li>
-                    <li>
-                        <details open>
-                        <summary>Parent</summary>
-                        <ul>
-                            <li><a>level 3 item 1</a></li>
-                            <li><a>level 3 item 2</a></li>
-                        </ul>
-                        </details>
-                    </li>
-                    </ul>
-                </details>
-                </li>
-                <li><a>Item 3</a></li> -->
-            </ul>
-        </div>
-        <div>
-            <ul>
-            {#if data.user}                
-                <li><a href="/profile">Hi {data.user.username}</a></li>
-                <form method="POST" action="/auth/logout">
-                <li>
-                    <button>Logout</button>
-                </li>
-                </form>
-            {:else}
-                <li><a href="/auth/login?redirectTo={$page.url.pathname}"><i class="ri-user-line"></i>Login </a></li>
-                <li><a href="/auth/signup?redirectTo={$page.url.pathname}">Signup</a></li>
-            {/if}
-            </ul>
-        </div>
-    </div>
-  
-    <!-- Main content -->
-    <div class="flex-grow">
-        <slot />
-    </div>
-</div>
+
+<svelte:head>
+	<title>EmptyTxt</title>
+</svelte:head>
+
+<Drawer>
+	<Navigation />
+</Drawer>
+
+<ToastMessage />
+<Toast position="tr" />
+
+
+<AppShell slotSidebarLeft="w-0 md:w-52 bg-surface-500/10">
+	<svelte:fragment slot="header">
+		<AppBar>
+			<svelte:fragment slot="lead">
+				<button class="md:hidden btn btn-sm-mr-4" on:click={drawerOpen}>
+					<i class="ri-menu-line"></i>
+				</button>
+			</svelte:fragment>
+			Recipes
+			<svelte:fragment slot="trail">
+				{#if $page.data.user}
+				<Avatar
+					initials={$page.data.user.username.charAt(0)}
+					border="border-4 border-surface-300-600-token hover:!border-primary-500"
+					cursor="cursor-pointer"
+					width="w-12"
+				/>
+				{/if}
+			</svelte:fragment>
+			
+		</AppBar>
+	</svelte:fragment>
+	<svelte:fragment slot="sidebarLeft">
+	    <Navigation />
+	</svelte:fragment>
+    <slot/>
+
+    <svelte:fragment slot="pageFooter">
+		<p>Page Footer!</p>
+	</svelte:fragment>
+</AppShell>

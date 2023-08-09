@@ -81,7 +81,6 @@ router.get('/clear', async (req, res) => {
 
 router.get('/user/current', authenticateToken, async (req, res) => { //authenticateToken
     try {
-        console.log("GET CURRENT USER")
         const recipe = await User.findOne({username: req.user.username})
         if (!recipe) throw new Error('No Recipe found')
         recipe["salt"] = undefined

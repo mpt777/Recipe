@@ -1,4 +1,6 @@
-export function setAuthToken(cookies, token){
+import type { Cookies } from "@sveltejs/kit";
+
+export function setAuthToken(cookies : Cookies, token: string){
     cookies.set('Authorization', `Bearer ${token}`, {
         httpOnly: true,
         path: '/',
@@ -8,11 +10,11 @@ export function setAuthToken(cookies, token){
     });    
 }
 
-export function getAuthToken(cookies){
+export function getAuthToken(cookies : Cookies){
     return cookies.get('Authorization');    
 }
 
 
-export function deleteAuthToken(cookies){
+export function deleteAuthToken(cookies : Cookies){
     cookies.delete('Authorization', { path: '/' });
 }

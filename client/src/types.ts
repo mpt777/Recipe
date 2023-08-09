@@ -1,0 +1,3 @@
+type UserInterface = {
+    username: string
+}
