@@ -1,6 +1,8 @@
-<script>
+<script lang="ts">
+
     export let data;
     let recipe = data.recipe;
+
 </script>
 
 <div class="main-container">

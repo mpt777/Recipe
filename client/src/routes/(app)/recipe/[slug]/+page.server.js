@@ -1,9 +1,18 @@
-export function load({ params }) {
+import RecipeList from '$components/home/RecipeList.svelte';
+import iapi from '$utils/iapi';
+
+export async function load({ params }) {
     
+    let recipe = {};
+    
+    try {
+        const response = await iapi(`recipe/${params.slug}`); // Make an API request
+        recipe = await response.json();
+    } catch (error) {
+        console.error('API request failed:', error);
+    }
+
     return {
-        recipe: {
-            title: `Title for ${params.slug} goes here`,
-            description: `Content for ${params.slug} goes here`
-        }
+        recipe: recipe
     };
 }

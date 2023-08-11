@@ -6,7 +6,7 @@ export const router = Router()
 
 router.post('/login', async (req, res) => {
     try {
-        const user = await User.findOne({ username: req.body.username });
+        const user = await User.findOne({ username: req.body.username }).select(['+salt','+hash']);
         if (user === null) { 
             return res.status(400).send({ 
                 message : "User not found."
@@ -83,8 +83,6 @@ router.get('/user/current', authenticateToken, async (req, res) => { //authentic
     try {
         const recipe = await User.findOne({username: req.user.username})
         if (!recipe) throw new Error('No Recipe found')
-        recipe["salt"] = undefined
-        recipe["hash"] = undefined
         res.status(200).json(recipe)
     } catch (error) {
         res.status(500).json({ message: error.message })

@@ -15,10 +15,12 @@ const UserSchema = new Schema({
     hash: {
         type: String,
         required: true,
+        select: false,
     },
     salt: {
         type: String,
         required: true,
+        select: false,
     }
 })
 
@@ -41,4 +43,4 @@ UserSchema.methods.setPassword = function(password) {
        return this.hash === hash; 
    }; 
 
-export const User = model('user', UserSchema)
+export const User = model('User', UserSchema)

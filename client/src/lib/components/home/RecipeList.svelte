@@ -1,31 +1,21 @@
-<script>
+<script lang="ts">
     import { onMount } from "svelte";
     import iapi from "$utils/iapi";
+	import { Avatar } from "@skeletonlabs/skeleton";
+    import { humanizeDate } from "$scripts/date";
 
-	let recipes = []
-    /*[
-        {
-            "title":"Avacado Toast",
-            "description":"Avacados used to mean balls"
-        },
-        {
-            "title":"Pizza",
-            "description":"YOu want this and that"
-        }
-    ];
-    */
+	export let recipes = [];
 
     onMount(async () => {
-        get();
+        if (!recipes.length) {
+            get();
+        }
     });
 
     async function get() {
         try {
-            const response = await iapi('recipe'); // Make an API request
+            const response = await iapi(`recipe`); // Make an API request
             recipes = await response.json();
-
-            // const response = await api.get('recipe'); // Make an API request
-            //recipes = response.data;
         } catch (error) {
             console.error('API request failed:', error);
         }
@@ -50,8 +40,15 @@
                         </article>
                     </section>
                     <hr class="opacity-50">
-                    <footer class="p-4 flex justify-start items-center space-x-4">
-                        (footer)
+                    <footer class="p-4 flex justify-between items-center space-x-4">
+                        <div>{humanizeDate(new Date(recipe.createdAt))}</div>
+                        <div>
+                            <Avatar
+                                initials={recipe.createdBy.username.charAt(0)}
+                                cursor="cursor-pointer"
+                                width="w-12"
+                            />
+                        </div>
                     </footer>
                 </div>
             </a>

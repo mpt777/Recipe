@@ -1,8 +1,9 @@
 <script>
-	import { AppShell, AppBar, Drawer, drawerStore, Toast, Avatar} from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, Drawer, drawerStore, Toast, Avatar, Modal} from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import Navigation from '$components/nav/Navigation.svelte';
 	import ToastMessage from '$components/utils/ToastMessage.svelte';
+	import { browser } from '$app/environment';
 
 	function drawerOpen() {
 		drawerStore.open();
@@ -18,8 +19,12 @@
 	<Navigation />
 </Drawer>
 
-<ToastMessage />
 <Toast position="tr" />
+<Modal />
+
+{#if browser}
+<ToastMessage />
+{/if }
 
 
 <AppShell slotSidebarLeft="w-0 md:w-52 bg-surface-500/10">
@@ -47,6 +52,7 @@
 	<svelte:fragment slot="sidebarLeft">
 	    <Navigation />
 	</svelte:fragment>
+
     <slot/>
 
     <svelte:fragment slot="pageFooter">

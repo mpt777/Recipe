@@ -1,3 +1,4 @@
 type UserInterface = {
-    username: string
+    _id: string,
+    username: string,
 }

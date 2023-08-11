@@ -1,7 +1,7 @@
 <script>
-    import PanelList from '$components/home/PanelList.svelte';
+    import RecipeList from '$components/home/RecipeList.svelte';
     import Sidebar from '$components/home/Sidebar.svelte';
 </script>
 
 
-<PanelList />
+<RecipeList />
