@@ -14,7 +14,15 @@ const config = {
 			$static: "src/lib/static",
 			$scripts: "src/lib/scripts",
 			$stores: "src/stores",
-		  },
+		},
+		csp : {
+			directives: {
+				'script-src': ['self']
+			},
+			// reportOnly: {
+			// 	'script-src': ['self']
+			// }
+		}
 	},
 	preprocess: [vitePreprocess()]
 };

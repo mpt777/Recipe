@@ -4,10 +4,11 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 
-import { router as TodoListRoutes } from './routes/api/todolist.js'
+import { router as IngredientRoutes } from './routes/api/recipe/ingredient.js'
 import { router as RecipeRoutes } from './routes/api/recipe/recipe.js'
 import { router as AuthRoutes } from './routes/api/auth/auth.js'
 import { router as ImageRoutes } from './routes/api/image/image.js'
+
 import { fileURLToPath } from 'url';
 
 import path from 'path'
@@ -30,8 +31,8 @@ mongoose
     .then(() => console.log('MongoDB database Connected...'))
     .catch((err) => console.log(err))
 
-app.use('/api/todoList', TodoListRoutes)
 app.use('/api/recipe', RecipeRoutes)
+app.use('/api/ingredient', IngredientRoutes)
 app.use('/api/auth', AuthRoutes)
 app.use('/api/image', ImageRoutes)
 

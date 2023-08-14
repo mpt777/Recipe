@@ -3,7 +3,7 @@ import iapi from '$utils/iapi';
 
 export async function load({ params }) {
     
-    let recipe = {};
+    let recipe : RecipeInterface;
     
     try {
         const response = await iapi(`recipe/${params.slug}`); // Make an API request

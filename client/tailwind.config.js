@@ -17,6 +17,8 @@ export default {
   ],
   safelist: [
     'variant-filled-success',
+    'select',
+    'textarea'
   ],
 };
 

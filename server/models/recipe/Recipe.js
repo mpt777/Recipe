@@ -21,4 +21,10 @@ const RecipeSchema = new Schema({
 { timestamps: true }
 )
 
+RecipeSchema.virtual('ingredients', {
+    ref: 'ingredient',
+    localField: '_id',
+    foreignField: 'recipe'
+});
+
 export const Recipe = model('recipe', RecipeSchema)

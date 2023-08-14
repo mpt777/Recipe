@@ -1,12 +1,13 @@
 import { Router } from 'express'
 import { Recipe } from '../../../models/recipe/Recipe.js'
 import {authenticateToken, generateAccessToken} from '../../../middleware/auth.js'
+import { Ingredient } from '../../../models/recipe/Ingredient.js'
 
 export const router = Router()
 
 router.get('/', async (req, res) => {
     try {
-        const query = Recipe.find().populate("createdBy")
+        const query = Recipe.find().populate(["createdBy"])
 
         const parameters = req.query;
 
@@ -26,7 +27,7 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const recipe = await Recipe.findById(id).populate("createdBy")
+        const recipe = await Recipe.findById(id).populate(["createdBy"])
         if (!recipe) throw new Error('No Recipe found')
         res.status(200).json(recipe)
     } catch (error) {
@@ -34,7 +35,7 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.post('/:id', async (req, res) => {
+router.post('/:id', authenticateToken, async (req, res) => {
     const { id } = req.params
     try {
         const recipe = await Recipe.findByIdAndUpdate(id, req.body)
@@ -45,7 +46,7 @@ router.post('/:id', async (req, res) => {
     }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticateToken, async (req, res) => {
     const { id } = req.params
     try {
         const removed = await Recipe.findByIdAndDelete(id)

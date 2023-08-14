@@ -3,6 +3,7 @@
     import iapi from "$utils/iapi";
 	import { Avatar } from "@skeletonlabs/skeleton";
     import { humanizeDate } from "$scripts/date";
+	import QuillDisplay from "$components/utils/form/QuillDisplay.svelte";
 
 	export let recipes = [];
 
@@ -36,7 +37,9 @@
                     <section class="p-4">
                         <h3 class="h3">{recipe.title}</h3>
                         <article>
-                            <p>{recipe.description}</p>
+                            <div class="max-h-40 overflow-hidden text-ellipsis">
+                                <QuillDisplay value={recipe.description} />
+                            </div>
                         </article>
                     </section>
                     <hr class="opacity-50">

@@ -1,14 +1,12 @@
 <script lang="ts">
+	import Recipe from "$components/recipe/Recipe.svelte";
+
 
     export let data;
-    let recipe = data.recipe;
+    let recipe : RecipeInterface = data.recipe;
 
 </script>
 
 <div class="main-container">
-
-    <div class="text-center">
-        {recipe.title}
-        {recipe.description}
-    </div>
+    <Recipe recipe={recipe}/>
 </div>
