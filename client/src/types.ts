@@ -8,10 +8,15 @@ type ImageInterface = {
     username: string,
 }
 
+type IngrdientInterface = {
+
+}
+
 type RecipeInterface = {
     _id: string,
     title: string,
     description: string,
     image: ImageInterface,
     createdBy: UserInterface,
+    ingredients?: IngrdientInterface[]
 }

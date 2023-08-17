@@ -1,26 +1,17 @@
-import RecipeList from '$components/home/RecipeList.svelte';
+
+import { recipeSchema } from '$lib/forms/recipe.form';
 import { Message, addMessage } from '$scripts/message';
 import iapi from '$utils/iapi';
-import { fail, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
-import { z } from "zod";
-
-const recipeSchema = z.object({
-    title: z.string().min(2),
-    description: z.string().min(1),
-    ingredients: z.object({
-        _id: z.string(),
-        title: z.string().min(1),
-        amount: z.coerce.number().positive(),
-        unit: z.enum(["cup", "teaspoon","tablespoon","pint","quart","gallon","ounce","fluid ounce","pound","milliliter","liter","gram","kilogram"]),
-        recipe: z.string(),
-        delete: z.boolean().default(false),
-      })
-      .array().min(0)
-})
 
 export async function load(event) {
-    let recipe = {};
+
+    if (!event.locals.user){
+        throw error(403, "You must be logged in to edit recipes")
+    }
+
+    let recipe : RecipeInterface = null!;
     
     try {
         const response = await iapi(`recipe/${event.params.slug}`); // Make an API request
@@ -35,7 +26,14 @@ export async function load(event) {
     } catch (error) {
         console.error('API request failed:', error);
     }
+
+    if (event.locals.user._id !== recipe.createdBy._id){
+        throw error(403, "You cannot edit other people's recipies")
+    }
+
     const form = await superValidate(recipe, recipeSchema)
+
+
     return { form, recipe };
 }
 export const actions = {

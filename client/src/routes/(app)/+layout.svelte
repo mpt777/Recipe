@@ -4,6 +4,7 @@
 	import Navigation from '$components/nav/Navigation.svelte';
 	import ToastMessage from '$components/utils/ToastMessage.svelte';
 	import { browser } from '$app/environment';
+	import { LightSwitch } from '@skeletonlabs/skeleton';
 
 	function drawerOpen() {
 		drawerStore.open();
@@ -37,6 +38,7 @@
 			</svelte:fragment>
 			Recipes
 			<svelte:fragment slot="trail">
+				<LightSwitch/>
 				{#if $page.data.user}
 				<Avatar
 					initials={$page.data.user.username.charAt(0)}

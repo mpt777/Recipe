@@ -9,23 +9,10 @@
 
 	import { modalStore, type ModalSettings, toastStore } from '@skeletonlabs/skeleton';
 	import { z } from 'zod';
+	import { recipeSchema } from '$lib/forms/recipe.form.js';
 
     // export let form;
     export let data;
-
-    const recipeSchema = z.object({
-        title: z.string().min(2),
-        description: z.string().min(1),
-        ingredients: z.object({
-            _id: z.string(),
-            title: z.string().min(1),
-            amount: z.coerce.number().positive(),
-            unit: z.enum(["cup", "teaspoon","tablespoon","pint","quart","gallon","ounce","fluid ounce","pound","milliliter","liter","gram","kilogram"]),
-            recipe: z.string(),
-            delete: z.boolean().default(false),
-        })
-        .array().min(0)
-    })
 
     const { form, errors, enhance, constraints } = superForm(data.form, {
         // taintedMessage: "Are you sure you want to leave?",
@@ -74,7 +61,7 @@
 
 </script>
 
-<SuperDebug data={$form}/>
+<!-- <SuperDebug data={$form}/> -->
 <div class="main-container">
 
     {JSON.stringify($errors)}
