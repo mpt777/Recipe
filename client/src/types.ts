@@ -9,7 +9,10 @@ type ImageInterface = {
 }
 
 type IngrdientInterface = {
-
+    _id: string,
+    title: string,
+    amount: string,
+    unit: number
 }
 
 type RecipeInterface = {

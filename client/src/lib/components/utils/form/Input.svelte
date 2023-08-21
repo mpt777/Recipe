@@ -8,6 +8,7 @@
     export let errors = {};
     export let type = "text";
     export let choices = [];
+    export let step = 1;
     const inputProperties = { type };
     let requiredClass = required ? "required" : ""; 
 
@@ -38,7 +39,7 @@
     autocomplete={autocomplete}
     required={required}
     {name}
-    class="{baseClass} {classes}"
+    class="{baseClass} {classes} w-full"
     bind:value
     on:input={handleInput} />
 {:else if type === "file"}
@@ -48,7 +49,7 @@
     autocomplete={autocomplete}
     required={required}
     {name}
-    class="{baseClass} {classes}"
+    class="{baseClass} {classes} w-full"
     bind:value
     on:input={handleInput} />
 {:else if type === "select"}
@@ -58,7 +59,7 @@
     autocomplete={autocomplete}
     required={required}
     {name}
-    class="{baseClass} {classes}"
+    class="{baseClass} {classes} w-full"
     bind:value
     on:input={handleInput}>
         {#each choices as choice}
@@ -71,13 +72,12 @@
     placeholder={placeholder}
     autocomplete={autocomplete}
     required={required}
-    step=0.1
+    step={step}
     {name}
-    class="{baseClass} {classes}"
+    class="w-full {baseClass} {classes}"
     bind:value
     on:input={handleInput} />
 {/if}
-<!-- <label class="label" for="{name}"> -->
-    <!-- <span class="label-text-alt">Bottom Left label</span> -->
-    <!-- <span class="label-text-alt">Bottom Right label</span> -->
-<!-- </label> -->
+<slot name="after">
+
+</slot>

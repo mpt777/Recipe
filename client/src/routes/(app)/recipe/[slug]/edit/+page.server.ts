@@ -19,13 +19,6 @@ export async function load(event) {
     } catch (error) {
         console.error('API request failed:', error);
     }
-    try {
-        const response = await iapi(`ingredient/?recipe=${event.params.slug}`); // Make an API request
-        recipe.ingredients = await response.json();
-        console.log(recipe.ingredients)
-    } catch (error) {
-        console.error('API request failed:', error);
-    }
 
     if (event.locals.user._id !== recipe.createdBy._id){
         throw error(403, "You cannot edit other people's recipies")
@@ -89,9 +82,9 @@ export const actions = {
     },
     delete: async({request, params, fetch, cookies}) => {
 
-        // const response = await fetch(`http://server:3000/api/recipe/${params.slug}`, {
-        //     method: "DELETE",
-        // })
+        const response = await fetch(`http://server:3000/api/recipe/${params.slug}`, {
+            method: "DELETE",
+        })
 
         addMessage(cookies, new Message({message: "Recipe Deleted"}));
         throw redirect(302, "/profile");

@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const recipe = await Recipe.findById(id).populate(["createdBy"])
+        const recipe = await Recipe.findById(id).populate(["createdBy"]).populate(["ingredients"])
         if (!recipe) throw new Error('No Recipe found')
         res.status(200).json(recipe)
     } catch (error) {
@@ -50,6 +50,7 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     const { id } = req.params
     try {
         const removed = await Recipe.findByIdAndDelete(id)
+        // const removed = await Recipe.findById(id)
         if (!removed) throw Error('Something went wrong ')
         res.status(200).json(removed)
     } catch (error) {

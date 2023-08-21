@@ -16,6 +16,7 @@ const config = {
 			$stores: "src/stores",
 		},
 		csp : {
+			mode: "auto",
 			directives: {
 				'script-src': ['self']
 			},

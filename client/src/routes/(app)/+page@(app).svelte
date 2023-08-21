@@ -3,5 +3,4 @@
     import Sidebar from '$components/home/Sidebar.svelte';
 </script>
 
-
 <RecipeList />
