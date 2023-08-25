@@ -3,10 +3,17 @@
 
     import { page } from '$app/stores';
 	import IngredientCheck from "./IngredientCheck.svelte";
-	import { fractionalize, pluralize } from "$scripts/humanize";
+	import { RadioGroup, RadioItem } from "@skeletonlabs/skeleton";
+	import { Ingredient, System, getSystemFromString } from "./Ingredient";
 
     export let recipe: RecipeInterface
     
+    let value: string = "DEFAULT";
+    let scalar: number = 1;
+
+    $: system = getSystemFromString(value)
+    $: ingredients = (recipe.ingredients || []).map(e => Ingredient.asSystem(e, system, scalar))
+
 </script>
 
 
@@ -18,15 +25,28 @@
         </a>
     </div>
     {/if}
+
+    <RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+        <RadioItem bind:group={value} name="justify" value={"DEFAULT"}>Default</RadioItem>
+        <RadioItem bind:group={value} name="justify" value={"US"}>US</RadioItem>
+        <RadioItem bind:group={value} name="justify" value={"Metric"}>Metric</RadioItem>
+    </RadioGroup>
+
+    <RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+        <RadioItem bind:group={scalar} name="justify" value={1}>1</RadioItem>
+        <RadioItem bind:group={scalar} name="justify" value={2}>2</RadioItem>
+        <RadioItem bind:group={scalar} name="justify" value={3}>3</RadioItem>
+    </RadioGroup>
+    
     <div class="space-y-4">
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold">{recipe.title}</h1>
         <QuillDisplay value={recipe.description}/>
 
         <h2 class="text-2xl md:text-3xl lg:text-4xl font-extrabold">Ingredients</h2>
         <ul class="list">
-        {#each recipe.ingredients || [] as ingredient }
+        {#each ingredients as ingredient }
             <li>
-                <IngredientCheck title="{fractionalize(ingredient.amount)} {pluralize(ingredient.unit, ingredient.amount)} {ingredient.title}" />
+                <IngredientCheck title="{ingredient.getAmount(scalar)} {ingredient.pluralizeUnit()} {ingredient.title}" />
             </li>
         {/each}
         </ul>

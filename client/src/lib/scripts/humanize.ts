@@ -1,10 +1,10 @@
 export function fractionalize(floatValue : number) {
-    const tolerance = 1.0e-6;
+    const tolerance = 1.0e-2;
 
     const wholePart = Math.floor(floatValue);
     const fractionalPart = floatValue - wholePart;
 
-    for (let denominator = 1; denominator <= 1000; denominator++) {
+    for (let denominator = 1; denominator <= 10; denominator++) {
         const numerator = Math.round(fractionalPart * denominator);
         const difference = Math.abs(fractionalPart - (numerator / denominator));
 
