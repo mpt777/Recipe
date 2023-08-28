@@ -1,4 +1,5 @@
 import express from 'express'
+import session from 'express-session';
 const app = express()
 import mongoose from 'mongoose'
 import cors from 'cors'
@@ -8,6 +9,8 @@ import { router as IngredientRoutes } from './routes/api/recipe/ingredient.js'
 import { router as RecipeRoutes } from './routes/api/recipe/recipe.js'
 import { router as AuthRoutes } from './routes/api/auth/auth.js'
 import { router as ImageRoutes } from './routes/api/image/image.js'
+
+import {initialize } from "./adminjs/initialize.js"
 
 import { fileURLToPath } from 'url';
 
@@ -22,18 +25,25 @@ dotenv.config()
 app.use(cors())
 app.use(bodyParser.json())
 
-mongoose
-    .connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
+app.use('/api/recipe/recipe', RecipeRoutes)
+app.use('/api/recipe/ingredient', IngredientRoutes)
+app.use('/api/common/auth', AuthRoutes)
+app.use('/api/common/image', ImageRoutes)
 
-    })
-    .then(() => console.log('MongoDB database Connected...'))
-    .catch((err) => console.log(err))
+app.use(session({
+    secret: process.env.TOKEN_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  }));
 
-app.use('/api/recipe', RecipeRoutes)
-app.use('/api/ingredient', IngredientRoutes)
-app.use('/api/auth', AuthRoutes)
-app.use('/api/image', ImageRoutes)
+const db = await mongoose
+.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 
-app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))
+initialize(app, db)
+
+app.listen(process.env.PORT, () => {
+    console.log(`Listening on port ${process.env.PORT}, AdminJS server started on URL: http://localhost:${process.env.PORT}`)
+})

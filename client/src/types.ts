@@ -15,6 +15,11 @@ type IngrdientInterface = {
     unit: string
 }
 
+type TagInterface = {
+    _id: string,
+    name: string,
+}
+
 type RecipeInterface = {
     _id: string,
     title: string,
@@ -22,4 +27,5 @@ type RecipeInterface = {
     image: ImageInterface,
     createdBy: UserInterface,
     ingredients?: IngrdientInterface[]
+    tags?: TagInterface[]
 }

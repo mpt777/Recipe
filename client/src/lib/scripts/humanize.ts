@@ -4,7 +4,7 @@ export function fractionalize(floatValue : number) {
     const wholePart = Math.floor(floatValue);
     const fractionalPart = floatValue - wholePart;
 
-    for (let denominator = 1; denominator <= 10; denominator++) {
+    for (let denominator = 1; denominator <= 100; denominator++) {
         const numerator = Math.round(fractionalPart * denominator);
         const difference = Math.abs(fractionalPart - (numerator / denominator));
 

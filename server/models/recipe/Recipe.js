@@ -12,27 +12,33 @@ const RecipeSchema = new Schema({
     },
     instructions: {
         type: String,
-        required: true,
+        required: false,
     },
     image:{
         type: Schema.Types.ObjectId, 
-        ref: 'Image'
+        ref: 'Image',
+        required: false,
     },
     createdBy:{
         type: Schema.Types.ObjectId, 
         ref: 'User'
     },
+    tags:[{
+        type: Schema.Types.ObjectId, 
+        ref: 'Tag'
+    }],
     prepTime: {
         type: Number,
-        required: true, 
+        required: false, 
     },
     cookTime: {
         type: Number,
-        required: true,
+        required: false,
     },
     servings: {
         type: Number,
-        required: true
+        required: true,
+        default: 1,
     }
 },
 { 
@@ -48,7 +54,7 @@ async function _deleteRelated(next, schema) {
     next()
 }
 RecipeSchema.virtual('ingredients', {
-    ref: 'ingredient',
+    ref: 'Ingredient',
     localField: '_id',
     foreignField: 'recipe'
 });
@@ -57,10 +63,4 @@ RecipeSchema.pre('findOneAndDelete', function(next){_deleteRelated(next, this)})
 RecipeSchema.pre('deleteOne', function(next){_deleteRelated(next, this)})
 RecipeSchema.pre('deleteMany', function(next){_deleteRelated(next, this)})
 
-
-// RecipeSchema.methods.ingredients = async function() {
-//     const ingredients = await Ingredient.find().where('recipe').equals(this._id)
-//     return ingredients
-// }
-
-export const Recipe = model('recipe', RecipeSchema)
+export const Recipe = model('Recipe', RecipeSchema)

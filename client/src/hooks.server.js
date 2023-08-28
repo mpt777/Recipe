@@ -9,7 +9,7 @@ export async function handle({ event, resolve }) {
         // get user from endpoint
         
         try{
-          const response = await event.fetch("http://server:3000/api/auth/user/current");
+          const response = await event.fetch("http://server:3000/api/common/auth/user/current");
           const user = await response.json()
           if (user) {
             event.locals.user = user

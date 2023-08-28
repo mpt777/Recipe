@@ -6,6 +6,7 @@
 	import Quill from '$components/utils/form/Quill.svelte';
     import QuillDisplay from '$components/utils/form/QuillDisplay.svelte';
     import SuperDebug from "sveltekit-superforms/client/SuperDebug.svelte"
+    import { InputChip } from '@skeletonlabs/skeleton';
 
     import { superForm } from "sveltekit-superforms/client"
 
@@ -63,8 +64,9 @@
 
 </script>
 
-<!-- <SuperDebug data={$form}/> -->
+<SuperDebug data={$form}/>
 <div class="main-container">
+    {JSON.stringify($form)}
 
     <form method="POST" action="?/update" use:enhance>
 
@@ -116,11 +118,11 @@
                 {/each}
             </div>
 
+            <InputChip bind:value={$form.tags} name="Tags" placeholder="Enter any value..." />
+            {JSON.stringify($errors.tags)}
+
             <button class="btn variant-outline-primary w-full" type="button" on:click={addIngredient}>Add Ingredient</button>
-
         </div>
-
-        
 
     </form>
 </div>

@@ -13,7 +13,7 @@
       formData.append('file', file);
   
       try {
-        const response = await iapi('image/upload', {
+        const response = await iapi('common/image/upload', {
           method: 'POST',
           body: formData,
           // You may need to set appropriate headers based on your server requirements

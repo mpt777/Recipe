@@ -8,7 +8,7 @@ export async function loginUser(event : RequestEvent){
     let jsonData = {};
     data.forEach((value, key) => jsonData[key] = value);
 
-    const response = await event.fetch("http://server:3000/api/auth/login", {
+    const response = await event.fetch("http://server:3000/api/common/auth/login", {
         method: "POST",
         headers:{
             "Content-Type":"application/json"
@@ -41,7 +41,7 @@ export async function signupUser(event: RequestEvent){
     let jsonData = {};
     data.forEach((value, key) => jsonData[key] = value);
 
-    const response = await event.fetch("http://server:3000/api/auth/signup", {
+    const response = await event.fetch("http://server:3000/api/common/auth/signup", {
         method: "POST",
         headers:{
             "Content-Type":"application/json"

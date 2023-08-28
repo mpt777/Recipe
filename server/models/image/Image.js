@@ -19,4 +19,4 @@ const ImageSchema = new Schema({
     },
 })
 
-export const Image = model('image', ImageSchema)
+export const Image = model('Image', ImageSchema)

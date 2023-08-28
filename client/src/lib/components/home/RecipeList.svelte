@@ -15,7 +15,7 @@
 
     async function get() {
         try {
-            const response = await iapi(`recipe`); // Make an API request
+            const response = await iapi(`recipe/recipe`); // Make an API request
             recipes = await response.json();
         } catch (error) {
             console.error('API request failed:', error);

@@ -6,7 +6,7 @@ export async function load({ params }) {
     let recipe : RecipeInterface;
     
     try {
-        const response = await iapi(`recipe/${params.slug}`); // Make an API request
+        const response = await iapi(`recipe/recipe/${params.slug}`); // Make an API request
         recipe = await response.json();
     } catch (error) {
         console.error('API request failed:', error);
