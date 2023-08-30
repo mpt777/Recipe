@@ -1,5 +1,5 @@
 <script>
-	import { AppShell, AppBar, Drawer, drawerStore, Toast, Avatar, Modal} from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, Drawer, Toast, Avatar, Modal} from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import Navigation from '$components/nav/Navigation.svelte';
 	import ToastMessage from '$components/utils/ToastMessage.svelte';
@@ -7,6 +7,10 @@
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { loginUser } from '$scripts/auth';
 	import { onMount } from 'svelte';
+
+	import { getDrawerStore } from "@skeletonlabs/skeleton";
+
+	const drawerStore = getDrawerStore();
 
 	function drawerOpen() {
 		drawerStore.open();

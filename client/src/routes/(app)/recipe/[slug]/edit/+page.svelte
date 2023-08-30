@@ -4,18 +4,22 @@
     import Label from '$components/utils/form/Label.svelte';
     import Errors from '$components/utils/form/Errors.svelte';
 	import Quill from '$components/utils/form/Quill.svelte';
+    import Breadcrumb from '$components/utils/Breadcrumb.svelte';
     import QuillDisplay from '$components/utils/form/QuillDisplay.svelte';
     import SuperDebug from "sveltekit-superforms/client/SuperDebug.svelte"
     import { InputChip } from '@skeletonlabs/skeleton';
 
     import { superForm } from "sveltekit-superforms/client"
 
-	import { modalStore, type ModalSettings, toastStore } from '@skeletonlabs/skeleton';
-	import { string, z } from 'zod';
+    import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
+			
+    const modalStore = getModalStore();
+
 	import { recipeSchema } from '$lib/forms/recipe.form.js';
 
     // export let form;
     export let data;
+    let recipe = data.recipe
 
     const { form, errors, enhance, constraints } = superForm(data.form, {
         // taintedMessage: "Are you sure you want to leave?",
@@ -62,11 +66,19 @@
         $form.ingredients = $form.ingredients;
     }
 
+    let breadcrumbs = [
+        {"link":"/", "label": "Home"},
+        {"link": `/recipe/${recipe._id}`, "label": $form.title},
+        {"link":"", "label": "Edit"},
+    ]
+
 </script>
 
-<SuperDebug data={$form}/>
+<!-- <SuperDebug data={$form}/> -->
 <div class="main-container">
-    {JSON.stringify($form)}
+    <!-- {JSON.stringify($form)} -->
+
+    <Breadcrumb breadcrumbs={breadcrumbs}/>
 
     <form method="POST" action="?/update" use:enhance>
 
@@ -119,7 +131,6 @@
             </div>
 
             <InputChip bind:value={$form.tags} name="Tags" placeholder="Enter any value..." />
-            {JSON.stringify($errors.tags)}
 
             <button class="btn variant-outline-primary w-full" type="button" on:click={addIngredient}>Add Ingredient</button>
         </div>

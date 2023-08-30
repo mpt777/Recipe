@@ -19,6 +19,7 @@ interface Unit {
     system: System;
     measurement: symbol;
     tags?: symbol[];
+    precision: number;
 
     // constructor(value:number) {
     //     this.value = value;
@@ -31,6 +32,7 @@ export const Cup: Unit = {
     abbreviation:"c",
     system:System.US,
     measurement:Measurement.Volume,
+    precision:0,
 }
 
 export const Teaspoon: Unit = {
@@ -38,6 +40,7 @@ export const Teaspoon: Unit = {
     abbreviation:"tsp",
     system:System.US,
     measurement:Measurement.Volume,
+    precision:0,
 }
 
 export const Tablespoon: Unit = {
@@ -45,6 +48,7 @@ export const Tablespoon: Unit = {
     abbreviation:"tbsp",
     system:System.US,
     measurement:Measurement.Volume,
+    precision:0,
 }
 
 export const Pint: Unit = {
@@ -52,6 +56,7 @@ export const Pint: Unit = {
     abbreviation:"pt",
     system:System.US,
     measurement:Measurement.Volume,
+    precision:0,
 }
 
 export const Quart: Unit = {
@@ -59,6 +64,7 @@ export const Quart: Unit = {
     abbreviation:"qt",
     system:System.US,
     measurement:Measurement.Volume,
+    precision:0,
 }
 
 export const Gallon: Unit= {
@@ -66,6 +72,7 @@ export const Gallon: Unit= {
     abbreviation:"gal",
     system:System.US,
     measurement:Measurement.Volume,
+    precision:0,
 }
 
 export const Ounce: Unit= {
@@ -73,6 +80,7 @@ export const Ounce: Unit= {
     abbreviation:"ounce",
     system:System.US,
     measurement:Measurement.Weight,
+    precision:0,
 }
 
 export const FluidOunce: Unit = {
@@ -80,6 +88,7 @@ export const FluidOunce: Unit = {
     abbreviation:"fl oz",
     system:System.US,
     measurement:Measurement.Volume,
+    precision:0,
 }
 
 export const Pound: Unit = {
@@ -87,6 +96,7 @@ export const Pound: Unit = {
     abbreviation:"lb",
     system:System.US,
     measurement:Measurement.Weight,
+    precision:0,
 }
 
 //-----------------------------------------
@@ -96,6 +106,7 @@ export const Milliliter: Unit = {
     abbreviation:"ml",
     system:System.Metric,
     measurement:Measurement.Volume,
+    precision:0,
 }
 
 export const Liter: Unit = {
@@ -103,6 +114,7 @@ export const Liter: Unit = {
     abbreviation:"l",
     system:System.Metric,
     measurement:Measurement.Volume,
+    precision:2,
 }
 
 export const Gram: Unit = {
@@ -110,6 +122,7 @@ export const Gram: Unit = {
     abbreviation:"g",
     system:System.Metric,
     measurement:Measurement.Weight,
+    precision:0,
 }
 
 export const Kilogram: Unit = {
@@ -117,6 +130,7 @@ export const Kilogram: Unit = {
     abbreviation:"k",
     system:System.Metric,
     measurement:Measurement.Weight,
+    precision:2,
 }
 
 //--------------------------------------------------
@@ -139,7 +153,7 @@ class Converter {
 
     constructor() {
         this.conversions = [
-            new Conversion(Cup, 240, Milliliter),
+            new Conversion(Cup, 236.588, Milliliter),
             new Conversion(Teaspoon, 4.92892, Milliliter),
             new Conversion(Tablespoon, 14.7868, Milliliter),
             new Conversion(FluidOunce, 29.5735, Milliliter),
@@ -147,12 +161,18 @@ class Converter {
             new Conversion(Quart, 946.353, Milliliter),
             new Conversion(Pint, 473.176, Milliliter),
 
-
             new Conversion(Ounce, 28.3495, Gram),
             new Conversion(Pound, 453.592, Gram),
 
             new Conversion(Liter, 1000, Milliliter),
         ]
+    }
+
+    units(){
+        let units = new Set<Unit>();
+        this.conversions.forEach(e => units.add(e.fromUnit));
+        this.conversions.forEach(e => units.add(e.toUnit));
+        return Array.from(units);
     }
 
     findConversionPath(
@@ -170,6 +190,10 @@ class Converter {
             (conv.fromUnit === fromUnit && !visited.has(conv.toUnit)) ||
             (conv.toUnit === fromUnit && !visited.has(conv.fromUnit))
         );
+
+        possibleConversions.sort((a, b) =>
+            a.ratio < b.ratio ? -1 : a.ratio > b.ratio ? 1 : 0
+        ); 
     
         for (const conv of possibleConversions) {
             const nextUnit = conv.fromUnit === fromUnit ? conv.toUnit : conv.fromUnit;
@@ -211,50 +235,49 @@ class Converter {
         return precisionRoundMod(convertedAmount, 4);
     }
 
-    findUnitWithSystem(
-        fromUnit: Unit,
-        toSystem: System,
-        visited: Set<Unit> = new Set()
-    ): Unit | undefined {
-        if (visited.has(fromUnit)) {
-            return undefined; // Avoid infinite loops
-        }
+    // findUnitWithSystem(
+    //     fromUnit: Unit,
+    //     toSystem: System,
+    //     visited: Set<Unit> = new Set()
+    // ): Unit | undefined {
+    //     if (visited.has(fromUnit)) {
+    //         return undefined; // Avoid infinite loops
+    //     }
     
-        visited.add(fromUnit);
+    //     visited.add(fromUnit);
     
-        const matchingConversion = this.conversions.find(conv =>
-            (conv.fromUnit === fromUnit && conv.toUnit.system === toSystem) ||
-            (conv.toUnit === fromUnit && conv.fromUnit.system === toSystem)
-        );
+    //     const matchingConversion = this.conversions.find(conv =>
+    //         (conv.fromUnit === fromUnit && conv.toUnit.system === toSystem) ||
+    //         (conv.toUnit === fromUnit && conv.fromUnit.system === toSystem)
+    //     );
     
-        if (matchingConversion) {
-            return matchingConversion.toUnit.system == toSystem ? matchingConversion.toUnit: matchingConversion.fromUnit; // Found a matching unit
-        }
+    //     if (matchingConversion) {
+    //         return matchingConversion.toUnit.system == toSystem ? matchingConversion.toUnit: matchingConversion.fromUnit; // Found a matching unit
+    //     }
 
-        const possibleConversions = this.conversions.filter(conv =>
-            (conv.fromUnit === fromUnit && !visited.has(conv.toUnit)) ||
-            (conv.toUnit === fromUnit && !visited.has(conv.fromUnit))
-        );
+    //     const possibleConversions = this.conversions.filter(conv =>
+    //         (conv.fromUnit === fromUnit && !visited.has(conv.toUnit)) ||
+    //         (conv.toUnit === fromUnit && !visited.has(conv.fromUnit))
+    //     );
     
+    //     for (const conv of possibleConversions) {
+    //         const nextUnit = conv.fromUnit === fromUnit ? conv.toUnit : conv.fromUnit;
+    //         const unitWithSystem = this.findUnitWithSystem(nextUnit, nextUnit.system, visited);
+    //         if (unitWithSystem !== undefined) {
+    //             return unitWithSystem; // Found a matching unit in the sub-path
+    //         }
+    //     }
     
-        for (const conv of possibleConversions) {
-            const nextUnit = conv.fromUnit === fromUnit ? conv.toUnit : conv.fromUnit;
-            const unitWithSystem = this.findUnitWithSystem(nextUnit, nextUnit.system, visited);
-            if (unitWithSystem !== undefined) {
-                return unitWithSystem; // Found a matching unit in the sub-path
-            }
-        }
-    
-        visited.delete(fromUnit);
-        return undefined; // No matching unit found in the path
-    }
+    //     visited.delete(fromUnit);
+    //     return undefined; // No matching unit found in the path
+    // }
 
-    convertUnit(fromUnit : Unit, toSystem : System) {
-        if (fromUnit.system === toSystem){
-            return fromUnit
-        }
-        return this.findUnitWithSystem(fromUnit, toSystem);
-    }
+    // convertUnit(fromUnit : Unit, toSystem : System) {
+    //     if (fromUnit.system === toSystem){
+    //         return fromUnit
+    //     }
+    //     return this.findUnitWithSystem(fromUnit, toSystem);
+    // }
 }
 export let UnitConverter = new Converter()
 
@@ -284,27 +307,35 @@ export class Ingredient {
         if (this.unit.system === System.US){
             return this.fractionalAmount()
         }
-        return precisionRoundMod(this.getScaledAmount(), 0)
+        return precisionRoundMod(this.getScaledAmount(), this.unit.precision)
     }
 
     pluralizeUnit() {
         return pluralize(this.unit.title, this.getScaledAmount())
     }
 
-    convertedAmount(system: System) {
-        if (this.unit.system === system){
-            return this.amount
-        }
-        return UnitConverter.convertUnit(this.unit, system);
-    }
+    // convertedAmount(system: System) {
+    //     if (this.unit.system === system){
+    //         return this.amount
+    //     }
+    //     return UnitConverter.convertUnit(this.unit, system);
+    // }
     static asSystem(ingredient : IngrdientInterface, system : System, scalar : number) {
         let unit = getUnitFromString(ingredient.unit);
         if (unit.system == system || system == System.Default){
             return new Ingredient(ingredient.amount, unit, ingredient.title, scalar)
         }
-        let transformedUnit = UnitConverter.convertUnit(unit, system) || unit;
-        let transformedAmount = UnitConverter.convertAmount(unit, transformedUnit, ingredient.amount) || ingredient.amount;
-        return new Ingredient(transformedAmount, transformedUnit, ingredient.title, scalar)
+
+        let systemAsString = Object.values(System)[Object.keys(System).indexOf(system)];
+        let validUnits = UnitConverter.units().filter(e => e.system === systemAsString)
+
+        let ingredients = validUnits.map(function(validUnit) {
+            let transformedAmount = UnitConverter.convertAmount(unit, validUnit, ingredient.amount) || 0;
+            return new Ingredient(transformedAmount, validUnit, ingredient.title, scalar)
+        }).filter(e => e.amount !== 0)
+
+        return ingredients.filter(e => e.getScaledAmount() > 1).reduce((prev, curr) => prev.getScaledAmount() < curr.getScaledAmount() ? prev : curr) ||
+                ingredients.reduce((prev, curr) => prev.getScaledAmount() < curr.getScaledAmount() ? prev : curr);
     }
 }
 

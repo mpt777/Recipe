@@ -9,11 +9,13 @@
     export let type = "text";
     export let choices = [];
     export let step = 1;
+    export let css = "";
+    export let style="";
     const inputProperties = { type };
     let requiredClass = required ? "required" : ""; 
 
     $: hasErrors = errors && errors[name];
-    $: classes = hasErrors ? "with-error" : "";
+    $: errorClass = hasErrors ? "with-error" : "";
 
     const handleInput = e => {
         value = e.target.value;
@@ -39,7 +41,8 @@
     autocomplete={autocomplete}
     required={required}
     {name}
-    class="{baseClass} {classes} w-full"
+    style="{style}"
+    class="{baseClass} {errorClass} {css} w-full"
     bind:value
     on:input={handleInput} />
 {:else if type === "file"}
@@ -49,7 +52,8 @@
     autocomplete={autocomplete}
     required={required}
     {name}
-    class="{baseClass} {classes} w-full"
+    style="{style}"
+    class="{baseClass} {errorClass} {css} w-full"
     bind:value
     on:input={handleInput} />
 {:else if type === "select"}
@@ -59,7 +63,8 @@
     autocomplete={autocomplete}
     required={required}
     {name}
-    class="{baseClass} {classes} w-full"
+    style="{style}"
+    class="{baseClass} {errorClass} {css} w-full"
     bind:value
     on:input={handleInput}>
         {#each choices as choice}
@@ -74,7 +79,8 @@
     required={required}
     step={step}
     {name}
-    class="w-full {baseClass} {classes}"
+    style="{style}"
+    class="w-full {baseClass} {errorClass} {css}"
     bind:value
     on:input={handleInput} />
 {/if}

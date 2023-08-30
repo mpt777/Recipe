@@ -24,9 +24,7 @@ export async function load(event) {
         throw error(403, "You cannot edit other people's recipies")
     }
 
-    console.log(recipe.tags)
     recipe.tags = recipe.tags?.map(e => e.name)
-    console.log(recipe)
 
     const form = await superValidate(recipe, recipeSchema)
 

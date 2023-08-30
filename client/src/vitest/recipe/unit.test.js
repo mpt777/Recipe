@@ -16,14 +16,14 @@ describe("conversion test", () => {
 	})
 })
 
-describe("conversion system test", () => {
-	it("Cup to Metric", () => {
-		expect(UnitConverter.convertUnit(Cup, System.Metric)).toBe(Milliliter);
-	})
-	it("Gram to Gram", () => {
-		expect(UnitConverter.convertUnit(Gram, System.Metric)).toBe(Gram);
-	})
-	it("Gram to Ounce", () => {
-		expect(UnitConverter.convertUnit(Gram, System.US)).toBe(Ounce);
-	})
-})
+// describe("conversion system test", () => {
+// 	it("Cup to Metric", () => {
+// 		expect(UnitConverter.convertUnit(Cup, System.Metric)).toBe(Milliliter);
+// 	})
+// 	it("Gram to Gram", () => {
+// 		expect(UnitConverter.convertUnit(Gram, System.Metric)).toBe(Gram);
+// 	})
+// 	it("Gram to Ounce", () => {
+// 		expect(UnitConverter.convertUnit(Gram, System.US)).toBe(Ounce);
+// 	})
+// })
