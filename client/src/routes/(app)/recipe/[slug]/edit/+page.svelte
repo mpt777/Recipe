@@ -16,6 +16,7 @@
     const modalStore = getModalStore();
 
 	import { recipeSchema } from '$lib/forms/recipe.form.js';
+	import Card from '$components/utils/Card.svelte';
 
     // export let form;
     export let data;
@@ -55,7 +56,7 @@
         $form.ingredients = $form.ingredients;
     }
 
-    async function removeIngredient(item, i:number) {
+    async function removeIngredient(item:IngredientInterface, i:number) {
         if (item._id){
             $form.ingredients[i].delete=true;
         }
@@ -93,46 +94,61 @@
             </div>
         </div>
         
-        <div class="space-y-4">
-            <Field name="title" placeholder="Title" label="Title" required=true errors={$errors} constraints={$constraints} bind:value={$form.title}/>
+        <div class="space-y-4 max-w-2xl mx-auto">
+            <Field name="title" placeholder="Title" label="Title" required={true} errors={$errors} constraints={$constraints} bind:value={$form.title} css="text-4xl font-bold"/>
             <Quill name="description" placeholder="Description" label="Description" errors={$errors} bind:value={$form.description} />
-            <Quill name="instructions" placeholder="Instructions" label="Instructions" required=true errors={$errors} bind:value={$form.instructions} />
+            <Quill name="instructions" placeholder="Instructions" label="Instructions" required={true} errors={$errors} bind:value={$form.instructions} />
         
+            <Card >
+                <div slot="header" class="card-header">
+                    Ingredients
+                </div>
+                <div class="space-y-4 p-4" slot="content">
+                    {#each $form.ingredients as ingredient, i}
+                    {#if !ingredient.delete}
+                    <section class="flex gap-x-4 gap-y-2 flex-wrap-reverse lg:flex-nowrap">
+                        <div class="flex gap-x-4 w-full">
+                            <div class="w-full">
+                                <Input name="amount" placeholder="Amount" required={true} type="number" step={0.05} bind:value={ingredient.amount}/>
+                                <Errors error="{$errors.ingredients?.[i]?.["amount"]}" />
+                            </div>
+                            <div class="w-full">
+                                <Input name="unit" placeholder="Unit" required={true} type="select" errors={$errors.ingredients?.[i]} choices={["cup", "teaspoon","tablespoon","pint","quart","gallon","ounce","fluid ounce","pound","milliliter","liter","gram","kilogram"]} bind:value={$form.ingredients[i].unit}/>          
+                                <Errors error="{$errors.ingredients?.[i]?.["unit"]}" /> 
+                            </div>
+                        </div>
+                        <div class="flex gap-x-4 w-full">
+                            <div class="w-full">
+                                <Input name="title" placeholder="Title" required={true} type="text" bind:value={ingredient.title}/>
+                                <Errors error="{$errors.ingredients?.[i]?.["title"]}" />
+                            </div>
+                            <div class="grow-0">
+                                <button type="button" class="btn variant-filled-error" on:click={() => removeIngredient(ingredient, i)}>
+                                    <i class="ri-delete-bin-2-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                    {#if i !== $form.ingredients.length-1}<hr>{/if}
+                    {/if}
+                    {/each}
 
-            <div class="space-y-4">
-                {#each $form.ingredients as ingredient, i}
-                {#if !ingredient.delete}
-                <section class="flex gap-x-4 gap-y-2 flex-wrap-reverse lg:flex-nowrap">
-                    <div class="flex gap-x-4 w-full">
-                        <div class="w-full">
-                            <Input name="amount" placeholder="Amount" required=true type="number" step=0.05 bind:value={ingredient.amount}/>
-                            <Errors error="{$errors.ingredients?.[i]?.["amount"]}" />
-                        </div>
-                        <div class="w-full">
-                            <Input name="unit" placeholder="Unit" required=true type="select" errors={$errors.ingredients?.[i]} choices={["cup", "teaspoon","tablespoon","pint","quart","gallon","ounce","fluid ounce","pound","milliliter","liter","gram","kilogram"]} bind:value={$form.ingredients[i].unit}/>          
-                            <Errors error="{$errors.ingredients?.[i]?.["unit"]}" /> 
-                        </div>
+                </div>
+                <div slot="footer">
+                    <hr>
+                    <div class="p-4">
+                        <button class="btn variant-outline-primary w-full" type="button" on:click={addIngredient}>Add Ingredient</button>
                     </div>
-                    <div class="flex gap-x-4 w-full">
-                        <div class="w-full">
-                            <Input name="title" placeholder="Title" required=true type="text" bind:value={ingredient.title}/>
-                            <Errors error="{$errors.ingredients?.[i]?.["title"]}" />
-                        </div>
-                        <div class="grow-0">
-                            <button type="button" class="btn variant-filled-error" on:click={() => removeIngredient(ingredient, i)}>
-                                <i class="ri-delete-bin-2-line"></i>
-                            </button>
-                        </div>
-                    </div>
-                </section>
-                <hr>
-                {/if}
-                {/each}
+                </div>
+            </Card>
+
+            <div>
+                <Label name="Tags" label="Tags">
+                <InputChip bind:value={$form.tags} name="Tags" placeholder="Enter any value..." />
+                </Label>
             </div>
 
-            <InputChip bind:value={$form.tags} name="Tags" placeholder="Enter any value..." />
-
-            <button class="btn variant-outline-primary w-full" type="button" on:click={addIngredient}>Add Ingredient</button>
+            
         </div>
 
     </form>
@@ -140,8 +156,8 @@
 
 <!-- <div class="w-full">
     <div class="grid-cols-[auto_1fr_auto]">
-        <div><Label label="Unit" required=true name="unit"/></div>
-        <Input name="unit" placeholder="Unit" required=true type="select" errors={$errors.ingredients?.[i]} choices={["cup", "teaspoon","tablespoon","pint","quart","gallon","ounce","fluid ounce","pound","milliliter","liter","gram","kilogram"]} bind:value={$form.ingredients[i].unit}/>          
+        <div><Label label="Unit" required={true} name="unit"/></div>
+        <Input name="unit" placeholder="Unit" required={true} type="select" errors={$errors.ingredients?.[i]} choices={["cup", "teaspoon","tablespoon","pint","quart","gallon","ounce","fluid ounce","pound","milliliter","liter","gram","kilogram"]} bind:value={$form.ingredients[i].unit}/>          
     </div>
     <Errors error="{$errors.ingredients?.[i]?.["unit"]}" /> 
 </div> -->

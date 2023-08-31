@@ -10,4 +10,5 @@
     {#if label}
         <span class="label-text {requiredClass}">{label}</span>
     {/if}
+    <slot />
 </label>

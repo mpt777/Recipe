@@ -42,7 +42,7 @@
     required={required}
     {name}
     style="{style}"
-    class="{baseClass} {errorClass} {css} w-full"
+    class="{baseClass} {errorClass} {css}"
     bind:value
     on:input={handleInput} />
 {:else if type === "file"}
@@ -53,7 +53,7 @@
     required={required}
     {name}
     style="{style}"
-    class="{baseClass} {errorClass} {css} w-full"
+    class="{baseClass} {errorClass} {css}"
     bind:value
     on:input={handleInput} />
 {:else if type === "select"}
@@ -64,7 +64,7 @@
     required={required}
     {name}
     style="{style}"
-    class="{baseClass} {errorClass} {css} w-full"
+    class="{baseClass} {errorClass} {css}"
     bind:value
     on:input={handleInput}>
         {#each choices as choice}
@@ -80,7 +80,7 @@
     step={step}
     {name}
     style="{style}"
-    class="w-full {baseClass} {errorClass} {css}"
+    class="{baseClass} {errorClass} {css}"
     bind:value
     on:input={handleInput} />
 {/if}

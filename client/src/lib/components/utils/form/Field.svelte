@@ -10,10 +10,11 @@
     export let name = "";
     export let forName = "";
     export let autocomplete = "";
-    export let required = "false";
+    export let required = false;
     export let errors = {};
     export let constraints = {}
     export let type = "text";
+    export let css = "";
     export let baseClass = undefined;
     let requiredClass = required ? "required" : ""; 
 
@@ -29,7 +30,7 @@
     {/if}
     
     <slot name="input">
-        {#if name}<Input bind:value={value} placeholder={placeholder} name={name} autocomplete={autocomplete} type={type} classes={classes} required={required} baseClass={baseClass} {...constraints}/>{/if}
+        {#if name}<Input bind:value={value} placeholder={placeholder} name={name} autocomplete={autocomplete} type={type} classes={classes} required={required} baseClass={baseClass} {...constraints} css={css}/>{/if}
     </slot>
     <slot name="error">
         {#if errors?.[name]}<Errors error="{errors?.[name]}" />{/if}

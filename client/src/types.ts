@@ -8,7 +8,7 @@ type ImageInterface = {
     username: string,
 }
 
-type IngrdientInterface = {
+type IngredientInterface = {
     _id: string,
     title: string,
     amount: number,
@@ -24,8 +24,10 @@ type RecipeInterface = {
     _id: string,
     title: string,
     description: string,
+    instructions: string,
     image: ImageInterface,
     createdBy: UserInterface,
-    ingredients?: IngrdientInterface[]
+    createdAt: Date,
+    ingredients?: IngredientInterface[]
     tags?: TagInterface[]
 }

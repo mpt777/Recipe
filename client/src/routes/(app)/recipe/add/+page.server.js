@@ -46,7 +46,6 @@ export const actions = {
             })
         });
         let responseData = await response.json()
-        console.log(responseData)
     
         if (response.ok){
             throw redirect(302, `/recipe/${responseData._id}/edit`)

@@ -6,7 +6,7 @@
     export let data;
     let recipe : RecipeInterface = data.recipe;
     let breadcrumbs = [
-        {"link":"Home", "label": "Home"},
+        {"link":"/", "label": "Home"},
         {"link":"/", "label": recipe.title},
     ]
 

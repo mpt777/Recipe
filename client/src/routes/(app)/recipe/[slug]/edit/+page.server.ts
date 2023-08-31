@@ -75,11 +75,8 @@ export const actions = {
         })
 
         let recipe = await response.json();
-        console.log(recipe)
 
         addMessage(event.cookies, new Message({message: "Recipe Saved"}));
-
-        console.log("End Update")
         
         return { form };
     },

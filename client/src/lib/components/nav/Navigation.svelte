@@ -17,6 +17,7 @@
             <li><NavLink title="Home" href="/"/></li>
             <li><NavLink title="Explore" href="/explore"/></li>
             <li><NavLink title="Recipes" href="/recipes"/></li>
+            <li><NavLink title="About" href="/about"/></li>
         </ul>
     </nav>
     <nav class="list-nav">

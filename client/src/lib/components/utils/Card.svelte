@@ -4,8 +4,10 @@
     let hoverClass = hover ? "card-hover" : ""
 </script>
 <div class="card {hoverClass}">
-	<header class="card-header"><slot name="header"/></header>
-	<section class="p-4"><slot name="content"/></section>
-	<footer class="card-footer"><slot name="footer"/></footer>
+	<header><slot name="header"/></header>
+	<slot name="pre-content"/>
+	<section><slot name="content"/></section>
+	<slot name="post-content"/>
+	<footer><slot name="footer"/></footer>
 </div>
 				

@@ -15,8 +15,8 @@
         <h2 class="text-xl font-semibold mb-4 text-center">Login</h2>
 
         <div class="space-y-4">
-            <Field name="username" placeholder="Username" label="Username" autocomplete="username" required=true/>
-            <Field name="password" placeholder="Password" label="Password" autocomplete="new-password" required=true type="password"/>
+            <Field name="username" placeholder="Username" label="Username" autocomplete="username" required={true}/>
+            <Field name="password" placeholder="Password" label="Password" autocomplete="new-password" required={true} type="password"/>
         </div>
 
         <br>

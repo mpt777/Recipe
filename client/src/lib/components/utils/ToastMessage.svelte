@@ -8,7 +8,7 @@
 
 	function createToasts(messages : []) {
 		messages.forEach((element : Message) => {
-			console.log("Trigger")
+			// console.log("Trigger")
 			toastStore.trigger({
 				message: element.message,
 				background: element.background,

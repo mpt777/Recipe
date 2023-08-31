@@ -30,7 +30,7 @@ export class Message implements IMessage {
 let messages : Message[] = [];
 
 export function addMessage(cookies: Cookies, message : Message) {
-    console.log("Message Added")
+    // console.log("Message Added")
     let messages : Message[] = [
         message,
         ...JSON.parse(cookies.get("toastMessages") || "[]")

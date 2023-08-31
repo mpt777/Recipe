@@ -8,7 +8,7 @@ export const router = Router()
 
 router.get('/', async (req, res) => {
     try {
-        const query = Recipe.find().populate(["createdBy"])
+        const query = Recipe.find().populate(["createdBy", "ingredients", "tags"])
 
         const parameters = req.query;
 

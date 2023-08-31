@@ -320,7 +320,7 @@ export class Ingredient {
     //     }
     //     return UnitConverter.convertUnit(this.unit, system);
     // }
-    static asSystem(ingredient : IngrdientInterface, system : System, scalar : number) {
+    static asSystem(ingredient : IngredientInterface, system : System, scalar : number) {
         let unit = getUnitFromString(ingredient.unit);
         if (unit.system == system || system == System.Default){
             return new Ingredient(ingredient.amount, unit, ingredient.title, scalar)

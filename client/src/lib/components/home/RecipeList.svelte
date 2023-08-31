@@ -4,11 +4,12 @@
 	import { Avatar } from "@skeletonlabs/skeleton";
     import { humanizeDate } from "$scripts/date";
 	import QuillDisplay from "$components/utils/form/QuillDisplay.svelte";
+    import RecipeTags from "$components/recipe/RecipeTags.svelte";
 
-	export let recipes = [];
+	export let recipes: RecipeInterface[];
 
     onMount(async () => {
-        if (!recipes.length) {
+        if (!recipes) {
             get();
         }
     });
@@ -25,17 +26,21 @@
 </script>
 
 <div class="p-4">
-    <section class="grid grid-cols-2 md:grid-cols-3 gap-4">
-    {#if recipes.length > 0}
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {#if recipes?.length > 0}
         {#each recipes as recipe, i}
             <!-- <Panel recipe={recipe} /> -->
             <a href="recipe/{recipe._id}" class="card bg-initial card-hover overflow-hidden">
-                <div class="">
-                    <header class="card-header">
+                <div class="h-full flex flex-col">
+                    <!-- <header class="card-header">
                         
-                    </header>
-                    <section class="p-4">
-                        <h3 class="h3">{recipe.title}</h3>
+                    </header> -->
+                    <section class="p-4 h-full">
+                        <div class="flex justify-between flex-wrap">
+                            <h3 class="h3">{recipe.title}</h3>
+                            <RecipeTags tags={recipe.tags}/>
+                        </div>
+
                         <article>
                             <div class="max-h-40 overflow-hidden text-ellipsis">
                                 <QuillDisplay value={recipe.description} />
