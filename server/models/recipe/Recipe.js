@@ -1,10 +1,16 @@
 import { Schema, model } from 'mongoose';
 import { Ingredient } from './Ingredient.js';
+import { TimeSchema } from "../common/TimeSchema.js"
 
 const RecipeSchema = new Schema({
     title: {
         type: String,
         required: false,
+    },
+    handle: {
+        type: String,
+        required: false,
+        unique: true,
     },
     description: {
         type: String,
@@ -21,24 +27,32 @@ const RecipeSchema = new Schema({
     },
     createdBy:{
         type: Schema.Types.ObjectId, 
-        ref: 'User'
+        ref: 'User',
+        required:true
     },
     tags:[{
         type: Schema.Types.ObjectId, 
-        ref: 'Tag'
+        ref: 'Tag',
+        required:true
     }],
     prepTime: {
-        type: Number,
-        required: false, 
+        type: TimeSchema, 
+        required:true
     },
     cookTime: {
-        type: Number,
-        required: false,
+        type: TimeSchema, 
+        required:true
     },
     servings: {
         type: Number,
         required: true,
         default: 1,
+    },
+    visibility: {
+        type: String,
+        required: true,
+        default: ["draft"],
+        enum: ["draft","private","unlisted","friends","published"]
     }
 },
 { 
@@ -51,6 +65,7 @@ const RecipeSchema = new Schema({
 async function _deleteRelated(next, schema) {
     const doc = await schema.model.findOne(schema.getFilter());
     Ingredient.deleteMany({recipe: doc._id}).exec();
+
     next()
 }
 RecipeSchema.virtual('ingredients', {
@@ -64,3 +79,16 @@ RecipeSchema.pre('deleteOne', function(next){_deleteRelated(next, this)})
 RecipeSchema.pre('deleteMany', function(next){_deleteRelated(next, this)})
 
 export const Recipe = model('Recipe', RecipeSchema)
+
+Recipe.findByHandleOrId = async function(handleOrId) {
+    try {
+        let recipe = await Recipe.findById(handleOrId)
+        if (recipe) {
+            return recipe
+        }
+    } catch {
+
+    }
+    return await Recipe.findOne({handle: handleOrId})
+}
+

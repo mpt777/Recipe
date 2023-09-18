@@ -2,7 +2,7 @@
 	import { AppShell, AppBar, Drawer, Toast, Avatar, Modal} from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import Navigation from '$components/nav/Navigation.svelte';
-	import ToastMessage from '$components/utils/ToastMessage.svelte';
+	import ToastMessage from '$components/messages/ToastMessage.svelte';
 	import { browser } from '$app/environment';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { loginUser } from '$scripts/auth';
@@ -19,7 +19,7 @@
 </script>
 
 <svelte:head>
-	<title>EmptyTxt</title>
+	<title>Calyps.io</title>
 </svelte:head>
 
 <Drawer>
@@ -42,7 +42,7 @@
 					<i class="ri-menu-line"></i>
 				</button>
 			</svelte:fragment>
-			Recipes
+			Calyps.io Recipes
 			<svelte:fragment slot="trail">
 				<LightSwitch/>
 				

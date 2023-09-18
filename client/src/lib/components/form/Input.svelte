@@ -3,19 +3,20 @@
     export let value : any;
     export let placeholder = "";
     export let name = "";
-    export let autocomplete = "";
+    export let autocomplete = "" || null;
     export let required = false;
     export let errors = {};
     export let type = "text";
     export let choices = [];
-    export let step = 1;
+    export let step = 1 || null;
     export let css = "";
     export let style="";
+    export let size= "" || null;
     const inputProperties = { type };
     let requiredClass = required ? "required" : ""; 
 
     $: hasErrors = errors && errors[name];
-    $: errorClass = hasErrors ? "with-error" : "";
+    $: errorClass = hasErrors ? "variant-ringed-error" : "";
 
     const handleInput = e => {
         value = e.target.value;
@@ -79,6 +80,7 @@
     required={required}
     step={step}
     {name}
+    size={size}
     style="{style}"
     class="{baseClass} {errorClass} {css}"
     bind:value

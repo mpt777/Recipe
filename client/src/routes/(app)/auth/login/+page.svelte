@@ -3,8 +3,8 @@
     
     import { enhance } from '$app/forms';
     import CenterPanel from '$components/auth/CenterPanel.svelte';
-    import Field from '$components/utils/form/Field.svelte';
-    import Message from '$components/utils/Message.svelte';
+    import Field from '$components/form/Field.svelte';
+    import Message from '$components/messages/Message.svelte';
 
 </script>
 

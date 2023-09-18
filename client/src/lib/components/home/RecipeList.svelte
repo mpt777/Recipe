@@ -3,7 +3,7 @@
     import iapi from "$utils/iapi";
 	import { Avatar } from "@skeletonlabs/skeleton";
     import { humanizeDate } from "$scripts/date";
-	import QuillDisplay from "$components/utils/form/QuillDisplay.svelte";
+	import QuillDisplay from "$components/form/QuillDisplay.svelte";
     import RecipeTags from "$components/recipe/RecipeTags.svelte";
 
 	export let recipes: RecipeInterface[];

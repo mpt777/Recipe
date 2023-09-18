@@ -12,6 +12,10 @@
 
 </script>
 
+<svelte:head>
+	<title>{recipe.title}</title>
+</svelte:head>
+
 <div class="main-container">
     <Breadcrumb breadcrumbs={breadcrumbs}/>
     <Recipe recipe={recipe}/>

@@ -7,7 +7,7 @@
 
 
 	function createToasts(messages : []) {
-		messages.forEach((element : Message) => {
+		(messages || [] ).forEach((element : Message) => {
 			// console.log("Trigger")
 			toastStore.trigger({
 				message: element.message,

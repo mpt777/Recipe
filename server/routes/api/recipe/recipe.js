@@ -4,6 +4,10 @@ import {authenticateToken, generateAccessToken} from '../../../middleware/auth.j
 import { Ingredient } from '../../../models/recipe/Ingredient.js'
 import { namesToIds } from '../../../models/recipe/Tag.js'
 
+import {responseErrorHandler} from '../../../errors/errorHandler.js'
+import {slugify} from '../../../utils/humanize.js'
+
+
 export const router = Router()
 
 router.get('/', async (req, res) => {
@@ -28,9 +32,9 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const recipe = await Recipe.findById(id).populate(["createdBy", "ingredients", "tags"])
+        const recipe = await Recipe.findByHandleOrId(id)
         if (!recipe) throw new Error('No Recipe found')
-        res.status(200).json(recipe)
+        res.status(200).json(await recipe.populate(["createdBy", "ingredients", "tags"]))
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -42,19 +46,36 @@ router.post('/:id', authenticateToken, async (req, res) => {
         if (req.body?.tags){
             req.body.tags = await namesToIds(req.body.tags)
         }
-        const recipe = await Recipe.findByIdAndUpdate(id, req.body)
+        if (req.body?.handle){
+            req.body.handle = slugify(req.body.handle)
+        }
+
+        let recipe = await Recipe.findByHandleOrId(id)
+
+        recipe = await Recipe.findByIdAndUpdate(recipe._id, req.body)
         if (!recipe) throw Error('Something went wrong ')
+
+        // if (req.body?.cookTime && !req.body?.cookTime._id) {
+        //     req.body.cookTime = new Time(req.body?.cookTime)
+        // }
+        // if (req.body?.prepTime && !req.body?.prepTime._id) {
+        //     req.body.prepTime = new Time(req.body?.prepTime)
+        // }
+        // recipe.cookTime = req.body.cookTime 
+        // recipe.prepTime = req.body.prepTime
         recipe.populate("tags")
         res.status(200).json(recipe)
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json(responseErrorHandler(error))
     }
 })
 
 router.delete('/:id', authenticateToken, async (req, res) => {
     const { id } = req.params
     try {
-        const removed = await Recipe.findByIdAndDelete(id)
+        const recipe = await Recipe.findByHandleOrId(id)
+
+        const removed = await Recipe.findByIdAndDelete(recipe._id, req.body)
         // const removed = await Recipe.findById(id)
         if (!removed) throw Error('Something went wrong ')
         res.status(200).json(removed)

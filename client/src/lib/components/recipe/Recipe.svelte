@@ -1,12 +1,14 @@
 <script lang="ts">
-	import QuillDisplay from "$components/utils/form/QuillDisplay.svelte";
+	import QuillDisplay from "$components/form/QuillDisplay.svelte";
 
     import { page } from '$app/stores';
 	import IngredientCheck from "./IngredientCheck.svelte";
 	import { RadioGroup, RadioItem } from "@skeletonlabs/skeleton";
 	import { Ingredient, System, getSystemFromString } from "./Ingredient";
-	import Input from "$components/utils/form/Input.svelte";
+	import Input from "$components/form/Input.svelte";
 	import RecipeTags from "./RecipeTags.svelte";
+	import { pluralize } from "$scripts/humanize";
+	import WakeLock from "./WakeLock.svelte";
     
     export let recipe: RecipeInterface;
     
@@ -22,9 +24,10 @@
 
 </script>
 
-    <div class="relative">
-        
-        <div class="space-y-4 mx-auto max-w-2xl">
+<div class="relative">
+    
+    <div class="mx-auto max-w-3xl card">
+        <div class="p-4 space-y-4">
             <div class="flex items-center justify-center gap-4 flex-wrap">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-center">
                     {recipe.title}
@@ -40,18 +43,18 @@
 
             <RecipeTags tags={recipe.tags} css="justify-center"/>
 
-            <div class="flex gap-3 flex-wrap text-center justify-center">
+            <div class="flex gap-3 flex-wrap text-center justify-center items-center">
                 <div>
                     <!-- <Label label="System"/> -->
-                    <RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+                    <RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary" display="flex">
                         <RadioItem bind:group={value} name="justify" value={"DEFAULT"}>Written</RadioItem>
                         <RadioItem bind:group={value} name="justify" value={"US"}>US</RadioItem>
                         <RadioItem bind:group={value} name="justify" value={"Metric"}>Metric</RadioItem>
                     </RadioGroup>
                 </div>
-    
+
                 <div>
-                    <RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary" class="input-group-divider">
+                    <RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary" class="input-group-divider" display="flex">
                         
                         <RadioItem bind:group={scalar} name="justify" value={"1"}>1</RadioItem>
                         <RadioItem bind:group={scalar} name="justify" value={"2"}>2</RadioItem>
@@ -61,7 +64,20 @@
                     </RadioGroup>
                 </div>
 
+                <WakeLock />
+                    
             </div>
+            
+            <div class="flex justify-around">
+                <div>Cook Time: {recipe.cookTime.amount} {pluralize(recipe.cookTime.unit, recipe.cookTime.amount)}</div>
+                <div>Prep Time: {recipe.prepTime.amount} {pluralize(recipe.prepTime.unit, recipe.prepTime.amount)}</div>
+                <div>Servings: {recipe.servings * parseFloat(scalar)}</div>
+            </div>
+        </div>
+
+        <hr>
+        <div class="p-4 space-y-4">
+
 
             <h2 class="text-2xl md:text-3xl lg:text-4xl font-extrabold">Description</h2>
             <QuillDisplay value={recipe.description}/>
@@ -78,7 +94,8 @@
             
             <h2 class="text-2xl md:text-3xl lg:text-4xl font-extrabold">Instructions</h2>
             <QuillDisplay value={recipe.instructions}/>
-            
         </div>
+        
     </div>
+</div>
 

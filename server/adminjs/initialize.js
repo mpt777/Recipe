@@ -20,7 +20,7 @@ export function initialize(app, db) {
 
     AdminJS.registerAdapter({ Database, Resource })
 
-    const admin = new AdminJS( {
+    const admin = new AdminJS({
         databases: [db],
     })
     

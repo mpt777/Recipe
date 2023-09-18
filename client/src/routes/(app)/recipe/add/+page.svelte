@@ -3,10 +3,10 @@
     import iapi from "$utils/iapi";
 
     export let form;
-    import Field from "$components/utils/form/Field.svelte";
-    import FileUpload from "$components/utils/form/FileUpload.svelte";
+    import Field from "$components/form/Field.svelte";
+    import FileUpload from "$components/form/FileUpload.svelte";
 
-    import Message from '$components/utils/Message.svelte';
+    import Message from '$components/messages/Message.svelte';
 </script>
 
 
