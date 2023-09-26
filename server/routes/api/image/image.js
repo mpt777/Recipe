@@ -30,9 +30,10 @@ const storage = multer.diskStorage({
 });
   
 const upload = multer({ storage: storage });
-  
+// const upload = multer({ storage: multer.memoryStorage() });
+
   // Handle file upload request
-router.post('/upload', upload.single('file'), async (req, res) => {
+router.post('/upload', upload.single("file"), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).send('No files were uploaded.');
@@ -40,11 +41,11 @@ router.post('/upload', upload.single('file'), async (req, res) => {
         const image = await new Image({
             title: req.body.title || req.file.filename, 
             src:req.file.path, 
-            name:req.file.fileName, 
+            name:req.file.filename, 
             alt:req.body.alt || ""
         }).save();
 
-        res.status(200).send('File uploaded successfully!');
+        res.status(200).json(image);
 
     } catch (error) {
         res.status(500).json({ message: error.message })

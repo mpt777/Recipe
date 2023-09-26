@@ -36,7 +36,7 @@ export async function handle({ event, resolve }) {
 export async function handleFetch({ request, fetch, event }) {
 
     request.headers.set('Authorization', `${event.cookies.get('Authorization')}`);
-
+    console.log("HEREAA")
     let x = await fetch(request);
     return x;
 }
@@ -45,6 +45,7 @@ export function handleError({ error, event }) {
 
   return {
       message: 'Whoops!',
-      code: error?.code ?? 'UNKNOWN'
+      code: error?.code ?? 'UNKNOWN',
+      error: error
   };
 }

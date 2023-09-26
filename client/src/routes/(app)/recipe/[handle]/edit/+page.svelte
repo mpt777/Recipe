@@ -19,6 +19,7 @@
 	import Card from '$components/utils/Card.svelte';
 	import { humanizeDate } from '$scripts/date.js';
 	import Error from '../../../+error.svelte';
+	import ImageModalOpen from '$components/image/ImageModalOpen.svelte';
 
     // export let form;
     export let data;
@@ -69,12 +70,6 @@
         $form.ingredients = $form.ingredients;
     }
 
-    let breadcrumbs = [
-        {"link":"/", "label": "Home"},
-        {"link": `/recipe/${recipe._id}`, "label": $form.title},
-        {"link":"", "label": "Edit"},
-    ]
-
 </script>
 
 <svelte:head>
@@ -82,18 +77,8 @@
 </svelte:head>
 
 <div class="main-container">
-    <Breadcrumb breadcrumbs={breadcrumbs}/>
 
     <form method="POST" action="?/update" use:enhance>
-
-        <div class="flex justify-between">
-            <div></div>
-            <div>
-                <button class="btn variant-filled-error" on:click={showDeleteModal} type="button"><i class="ri-delete-bin-line"></i> Delete</button>
-                <button class="btn variant-filled-primary"><i class="ri-save-line"></i> Save</button>
-                <button class="btn variant-filled-error hidden" formaction="?/delete" id="deleteRecipe">Delete</button>
-            </div>
-        </div>
         
         <div class="flex flex-wrap justify-center gap-4">
             <div class="space-y-4 max-w-2xl">
@@ -146,6 +131,20 @@
 
             </div>
             <div class="space-y-4">  
+                <div class="text-right">
+                    <button class="btn variant-filled-error" on:click={showDeleteModal} type="button"><i class="ri-delete-bin-line"></i> Delete</button>
+                    <button class="btn variant-filled-primary"><i class="ri-save-line"></i> Save</button>
+                    <button class="btn variant-filled-error hidden" formaction="?/delete" id="deleteRecipe">Delete</button>
+                </div>
+
+                <Card hhr={true}>
+                    <div slot="content" class="p-4 space-y-4">
+                        <ImageModalOpen />
+                        <br>
+                        <Input name="image" type="file" errors={$errors} required="{false}"/>
+                    </div>
+                </Card>
+
                 <Card hhr={true}>
                     <div slot="header" class="p-2 text-xl">Meta Data</div>
                     <div slot="content" class="p-4 space-y-4">

@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+const MAX_IMAGE_SIZE = 500000;
+const ACCEPTED_IMAGE_TYPES = ["image/jpg", "image/jepg", "image/png", "image/webp"]
+
+
 export const recipeSchema = z.object({
     title: z.string().min(2),
     handle: z.string(),
@@ -22,6 +26,24 @@ export const recipeSchema = z.object({
     prepTime: z.object({
         amount: z.coerce.number().positive(),
         unit: z.enum(["hour", "minute", "second"]),
-    })
+    }),
+    image: z.object({
+        image: z
+        .any()
+        .refine((file) => file?.size < MAX_IMAGE_SIZE, "Max image size is 5 MB")
+        .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), "Only .jpg, .jpeg, .png, and .webp formats supported")
+    }).optional()
+    
+})
+
+export const imageSchema = z.object({
+    title: z.string().min(1),
+    alt: z.string().min(0),
+    image: z.object({
+        image: z
+        .any()
+        .refine((file) => file?.size < MAX_IMAGE_SIZE, "Max image size is 5 MB")
+        .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), "Only .jpg, .jpeg, .png, and .webp formats supported")
+    }).optional()
     
 })

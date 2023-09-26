@@ -5,6 +5,7 @@
     import { humanizeDate } from "$scripts/date";
 	import QuillDisplay from "$components/form/QuillDisplay.svelte";
     import RecipeTags from "$components/recipe/RecipeTags.svelte";
+	import Recipe from "$components/recipe/Recipe.svelte";
 
 	export let recipes: RecipeInterface[];
 
@@ -23,6 +24,8 @@
         }
     }
 
+    // let cRecipe = new Recipe(recipe)
+
 </script>
 
 <div class="p-4">
@@ -30,7 +33,7 @@
     {#if recipes?.length > 0}
         {#each recipes as recipe, i}
             <!-- <Panel recipe={recipe} /> -->
-            <a href="recipe/{recipe._id}" class="card bg-initial card-hover overflow-hidden">
+            <a href="recipe/{recipe.handle || recipe._id}" class="card bg-initial card-hover overflow-hidden">
                 <div class="h-full flex flex-col">
                     <!-- <header class="card-header">
                         

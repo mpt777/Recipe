@@ -23,8 +23,7 @@ global.appRoot = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config()
 
 app.use(cors())
-app.use(bodyParser.json())
-
+app.use(express.json());
 app.use('/api/recipe/recipe', RecipeRoutes)
 app.use('/api/recipe/ingredient', IngredientRoutes)
 app.use('/api/common/auth', AuthRoutes)

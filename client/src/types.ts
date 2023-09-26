@@ -27,6 +27,7 @@ type TimeInterface = {
 
 type RecipeInterface = {
     _id: string,
+    handle: string,
     title: string,
     description: string,
     instructions: string,

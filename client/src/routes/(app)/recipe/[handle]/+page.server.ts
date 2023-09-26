@@ -12,7 +12,13 @@ export async function load({ params }) {
         console.error('API request failed:', error);
     }
 
+    let breadcrumbs = [
+        {"link":"/", "label": "Home"},
+        {"link":"/", "label": recipe.title},
+    ]
+
     return {
-        recipe: recipe
+        recipe,
+        breadcrumbs
     };
 }

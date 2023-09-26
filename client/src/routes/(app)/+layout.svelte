@@ -9,12 +9,15 @@
 	import { onMount } from 'svelte';
 
 	import { getDrawerStore } from "@skeletonlabs/skeleton";
+	import Breadcrumb from '$components/utils/Breadcrumb.svelte';
 
 	const drawerStore = getDrawerStore();
 
 	function drawerOpen() {
 		drawerStore.open();
 	}
+
+	$: breadcrumbs = $page.data.breadcrumbs || [];
 
 </script>
 
@@ -41,8 +44,10 @@
 				<button class="md:hidden btn btn-sm-mr-4" on:click={drawerOpen}>
 					<i class="ri-menu-line"></i>
 				</button>
+				Calyps.io Recipes
 			</svelte:fragment>
-			Calyps.io Recipes
+			
+			
 			<svelte:fragment slot="trail">
 				<LightSwitch/>
 				
@@ -62,7 +67,16 @@
 	    <Navigation />
 	</svelte:fragment>
 
-    <slot/>
+	<div>
+		{#if breadcrumbs.length}
+		<div class="bg-glass-300-600-token p-2 m-2 token rounded-token">
+			<Breadcrumb breadcrumbs={breadcrumbs}/>
+		</div>
+		{/if}
+		<slot>
+
+		</slot>
+	</div>
 
     <svelte:fragment slot="pageFooter">
 		<p>Page Footer!</p>

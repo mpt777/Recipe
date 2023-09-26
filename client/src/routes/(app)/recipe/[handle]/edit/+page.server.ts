@@ -28,12 +28,25 @@ export async function load(event) {
 
     const form = await superValidate(recipe, recipeSchema)
 
+    let breadcrumbs = [
+        {"link":"/", "label": "Home"},
+        {"link": `/recipe/${recipe._id}`, "label": recipe.title},
+        {"link":"", "label": "Edit"},
+    ]
 
-    return { form, recipe };
+    return { form, recipe, breadcrumbs};
 }
 export const actions = {
     update: async(event) => {
-        let form = await superValidate(event, recipeSchema)
+        console.log("Normal")
+        const formData = await event.request.formData();
+
+
+        console.log(formData)
+        const file = formData.get("image");
+        console.log(file)
+
+        let form = await superValidate(formData, recipeSchema)
 
         if (!form.valid){
             return fail(400, { form })
