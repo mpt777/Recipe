@@ -7,13 +7,8 @@ import { setError, superValidate } from 'sveltekit-superforms/server';
 
 export const actions = {
     update: async(event) => {
-        console.log("IMAGE UPLOAD2")
-        console.log(event)
-
         const formData = await event.request.formData();
 
-        
-        
         console.log(formData)
 
         let form = await superValidate(formData, imageSchema)
@@ -26,14 +21,6 @@ export const actions = {
             method: "post",
             body: formData,
         })
-
-        // const response = await iapi(`common/image/upload`, {
-        //     method: "POST",
-        //     body: formData,
-        // })
-
-        console.log("resolve")
-        console.log(await response.text())
         
         return { form };
     },

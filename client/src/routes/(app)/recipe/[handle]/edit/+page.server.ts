@@ -26,7 +26,10 @@ export async function load(event) {
 
     recipe.tags = recipe.tags?.map(e => e.name)
 
-    const form = await superValidate(recipe, recipeSchema)
+    let recipeForm = { ...recipe}
+    recipeForm.image = recipe.image._id || "";
+    
+    const form = await superValidate(recipeForm, recipeSchema)
 
     let breadcrumbs = [
         {"link":"/", "label": "Home"},
@@ -41,10 +44,7 @@ export const actions = {
         console.log("Normal")
         const formData = await event.request.formData();
 
-
-        console.log(formData)
         const file = formData.get("image");
-        console.log(file)
 
         let form = await superValidate(formData, recipeSchema)
 

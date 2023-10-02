@@ -18,8 +18,8 @@
 	import { recipeSchema } from '$lib/forms/recipe.form.js';
 	import Card from '$components/utils/Card.svelte';
 	import { humanizeDate } from '$scripts/date.js';
-	import Error from '../../../+error.svelte';
 	import ImageModalOpen from '$components/image/ImageModalOpen.svelte';
+	import { imageStore } from '$stores/imageStore.js';
 
     // export let form;
     export let data;
@@ -69,6 +69,13 @@
         
         $form.ingredients = $form.ingredients;
     }
+
+    imageStore.set(recipe.image)
+
+    imageStore.subscribe(value => {
+        recipe.image = value;
+        $form.image = recipe.image._id;
+    })
 
 </script>
 
@@ -138,10 +145,8 @@
                 </div>
 
                 <Card hhr={true}>
-                    <div slot="content" class="p-4 space-y-4">
-                        <ImageModalOpen />
-                        <br>
-                        <Input name="image" type="file" errors={$errors} required="{false}"/>
+                    <div slot="content" class="p-4 space-y-4 max-w-sm">
+                        <ImageModalOpen image={recipe.image} imageStore={imageStore}/>
                     </div>
                 </Card>
 

@@ -17,6 +17,11 @@ const ImageSchema = new Schema({
         type: String,
         required: false,
     },
+    createdBy: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User',
+        required:true
+    },
 })
 
 export const Image = model('Image', ImageSchema)

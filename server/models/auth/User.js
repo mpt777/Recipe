@@ -44,3 +44,12 @@ UserSchema.methods.validPassword = function(password) {
 }; 
 
 export const User = model('User', UserSchema)
+
+// UserSchema.methods.getIdFromUsername = function(username) { 
+//     try{
+//         return User.findOne({username: username})
+//     } 
+//     catch {
+//         return null
+//     }
+// }; 

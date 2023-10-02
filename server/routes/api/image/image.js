@@ -2,6 +2,8 @@ import { Router } from 'express'
 import { Image } from '#src/models/image/Image'
 import multer from "multer";
 import path from "path";
+import {authenticateToken } from '../../../middleware/auth.js'
+import {User } from '../../../models/auth/User.js'
 
 
 export const router = Router()
@@ -42,10 +44,28 @@ router.post('/upload', upload.single("file"), async (req, res) => {
             title: req.body.title || req.file.filename, 
             src:req.file.path, 
             name:req.file.filename, 
+            createdBy:req.body.createdBy, 
             alt:req.body.alt || ""
         }).save();
 
         res.status(200).json(image);
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+});
+
+router.get('/', authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.user.username });
+
+        if (user == null) {
+            return res.status(200).json([]);
+        }
+
+        const images = await Image.where("createdBy").equals(user._id).exec()
+
+        res.status(200).json(images);
 
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -64,7 +84,7 @@ router.get('/file/:id', async (req, res, next) => {
             if (err) {
                 next(err);
             } else {
-                console.log('Sent:', fileName);
+                // console.log('Sent:', fileName);
                 next();
             }
         });

@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
     try {
         const recipe = await Recipe.findByHandleOrId(id)
         if (!recipe) throw new Error('No Recipe found')
-        res.status(200).json(await recipe.populate(["createdBy", "ingredients", "tags"]))
+        res.status(200).json(await recipe.populate(["createdBy", "ingredients", "tags", "image"]))
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -55,14 +55,6 @@ router.post('/:id', authenticateToken, async (req, res) => {
         recipe = await Recipe.findByIdAndUpdate(recipe._id, req.body)
         if (!recipe) throw Error('Something went wrong ')
 
-        // if (req.body?.cookTime && !req.body?.cookTime._id) {
-        //     req.body.cookTime = new Time(req.body?.cookTime)
-        // }
-        // if (req.body?.prepTime && !req.body?.prepTime._id) {
-        //     req.body.prepTime = new Time(req.body?.prepTime)
-        // }
-        // recipe.cookTime = req.body.cookTime 
-        // recipe.prepTime = req.body.prepTime
         recipe.populate("tags")
         res.status(200).json(recipe)
     } catch (error) {

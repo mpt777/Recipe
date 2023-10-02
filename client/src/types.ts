@@ -5,7 +5,10 @@ type UserInterface = {
 
 type ImageInterface = {
     _id: string,
-    username: string,
+    src: string,
+    name: string,
+    alt: string,
+    createBy: UserInterface,
 }
 
 type IngredientInterface = {

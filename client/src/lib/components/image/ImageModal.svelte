@@ -9,10 +9,11 @@
     import Field from '$components/form/Field.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { imageSchema } from '$lib/forms/recipe.form';
+    import { page } from '$app/stores';
 	import iapi from '$utils/iapi';
 	const modalStore = getModalStore();
 
-    export let data;
+    export let data
 
     const { form, errors, enhance, constraints } = superForm(data, {
         // taintedMessage: "Are you sure you want to leave?",
@@ -29,24 +30,20 @@
             formData.append(key, $form[key]);
         }
         formData.append("file", files[0]);
-
-        console.log(files[0])
+        formData.append("createdBy", $page.data.user._id)
 
         const response = await iapi(`common/image/upload`, {
             method: "POST",
             body: formData,
         })
 
-        // const response = await fetch(`/image/upload?/update`, {
-        //     method: "POST",
-        //     body: formData,
-        // })
-
         let d = await response.json()
-        console.log(d)
 
-
+        if ($modalStore[0]) {
+            $modalStore[0].response(d);
+        }
 		modalStore.close();
+        
 	}
 
 	// Base Classes
@@ -64,9 +61,8 @@
 		<!-- Enable for debugging: -->
 		<form class="modal-form {cForm}" method="POST" enctype="multipart/form-data">
             <Field name="title" placeholder="Title" label="Title" required={true} errors={$errors} constraints={$constraints} bind:value={$form.title} css=""/>
-            <Field name="alt" placeholder="Text for screen readers" label="Alt Text" required={true} errors={$errors} constraints={$constraints} bind:value={$form.alt} css=""/>
-            <input accept="image/png, image/jpeg, image/webp" bind:files name="file" type="file" />
-            <button class="btn {parent.buttonPositive}" formaction="/image/upload?/update">Submit Form</button>
+            <Field name="alt" placeholder="Text for screen readers" label="Alt Text" required={false} errors={$errors} constraints={$constraints} bind:value={$form.alt} css=""/>
+            <input accept="image/png, image/jpeg, image/webp" bind:files name="file" type="file" required class="input"/>
 		</form>
 		<!-- prettier-ignore -->
 		<footer class="modal-footer {parent.regionFooter}">
