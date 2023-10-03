@@ -13,9 +13,9 @@
 	import iapi from '$utils/iapi';
 	const modalStore = getModalStore();
 
-    export let data
+    export let image
 
-    const { form, errors, enhance, constraints } = superForm(data, {
+    const { form, errors, enhance, constraints } = superForm(image, {
         // taintedMessage: "Are you sure you want to leave?",
         validators: imageSchema,
         dataType: "form"
@@ -29,15 +29,26 @@
         for ( var key in $form ) {
             formData.append(key, $form[key]);
         }
-        formData.append("file", files[0]);
-        formData.append("createdBy", $page.data.user._id)
+        if (files){
+            formData.append("file", files[0]);
+        }
 
-        const response = await iapi(`common/image/upload`, {
-            method: "POST",
-            body: formData,
-        })
-
-        let d = await response.json()
+        let d = {}
+        if (image){
+            const response = await iapi(`common/image/${image._id}`, {
+                method: "POST",
+                body: formData,
+            })
+            d = await response.json()
+        }
+        else {
+            formData.append("createdBy", $page.data.user._id)
+            const response = await iapi(`common/image/upload`, {
+                method: "POST",
+                body: formData,
+            })
+            d = await response.json()
+        }
 
         if ($modalStore[0]) {
             $modalStore[0].response(d);

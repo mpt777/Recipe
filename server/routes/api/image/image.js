@@ -89,7 +89,6 @@ router.get('/file/:id', async (req, res, next) => {
             }
         });
 
-
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -98,9 +97,26 @@ router.get('/file/:id', async (req, res, next) => {
 router.get('/:id', async (req, res) => {
     const { id } = req.params
     try {
-        const recipe = await Image.findById(id)
-        if (!recipe) throw new Error('No Recipe found')
-        res.status(200).json(recipe)
+        const image = await Image.findById(id)
+        if (!image) throw new Error('No Recipe found')
+        res.status(200).json(image)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+router.post('/:id', upload.single("file"), async (req, res) => {
+    const { id } = req.params
+    try {
+        let image = await Image.findByIdAndUpdate(id, req.body)
+        if (req.file) {
+            image.src = req.file.path
+            image.name = req.file.filename
+        }
+        image.save()
+
+        res.status(200).json(image);
+
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
