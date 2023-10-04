@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import { Recipe } from '../../../models/recipe/Recipe.js'
 import {authenticateToken, generateAccessToken} from '../../../middleware/auth.js'
-import { Ingredient } from '../../../models/recipe/Ingredient.js'
 import { namesToIds } from '../../../models/recipe/Tag.js'
 
 import {responseErrorHandler} from '../../../errors/errorHandler.js'
@@ -12,7 +11,7 @@ export const router = Router()
 
 router.get('/', async (req, res) => {
     try {
-        const query = Recipe.find().populate(["createdBy", "ingredients", "tags"])
+        const query = Recipe.find().populate(["createdBy", "ingredients", "tags", "image"])
 
         const parameters = req.query;
 

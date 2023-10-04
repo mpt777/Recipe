@@ -24,11 +24,6 @@
             setImage(data)
         }
     };
-    function openModal() {
-        modalStore.trigger(d);
-    }
-
-    //---------------------------------
 
     let modalComponentEdit: ModalComponent = {
         ref: ImageEditModal,
@@ -45,9 +40,6 @@
             setImage(data)
         }
     };
-    function openModalEdit() {
-        modalStore.trigger(dEdit);
-    }
 
     //---------------------------------
 
@@ -66,8 +58,9 @@
             setImage(data)
         }
     };
-    function openModalAdd() {
-        modalStore.trigger(dAdd);
+
+    function openModal(modalSettings : ModalSettings) {
+        modalStore.trigger(modalSettings);
     }
 
     //-------------------------------------------
@@ -83,9 +76,13 @@
 
 </script>
 
-<div>
-    <Image image={image}/>
-    <button class="btn variant-filled" on:click={openModal} type="button">Change</button>
-    <button class="btn variant-filled" on:click={openModalEdit} type="button">Edit</button>
-    <button class="btn variant-filled" on:click={openModalAdd} type="button">Upload</button>
+<div class="space-y-4">
+    <Image image={image} css="rounded-container-token"/>
+    <div class="text-center">
+        <div class="btn-group variant-filled">
+            <button class="variant-filled" on:click={() => openModal(d)} type="button">Change</button>
+            <button class="variant-filled" on:click={() => openModal(dEdit)} type="button">Edit</button>
+            <button class="variant-filled" on:click={() => openModal(dAdd)} type="button">New</button>
+        </div>
+    </div>
 </div>

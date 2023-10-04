@@ -30,7 +30,6 @@
     function setSelectedImage(im){
         selectedImage = im;
         image = im;
-        return null;
     }
 
 	// We've created a custom submit function to pass the response and close the modal.
@@ -56,7 +55,7 @@
 
         <div class="grid sm:grid-cols-2 md:grid-cols-3 grid-flow-row gap-4">
         {#each images as im}
-            <button class="{im?._id === selectedImage?._id ? selected : '' }" on:click={setSelectedImage(im)}>
+            <button class="{im?._id === selectedImage?._id ? selected : '' }" on:click={() => setSelectedImage(im)}>
                 <Image image={im}/>
             </button>
         {/each}

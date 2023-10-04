@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { User } from '../../../models/auth/User.js'
 import {authenticateToken, generateAccessToken} from '../../../middleware/auth.js'
+import { mailTransporter } from '../../../utils/email.js'
 
 export const router = Router()
 
@@ -59,7 +60,24 @@ router.post('/signup', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => { //authenticateToken
+router.get('/reset-password', async (req, res) => {
+    try {
+        let mailDetails = {
+            from: 'mptaylor777@gmail.com',
+            to: 'mptaylor777@gmail.com',
+            subject: 'Test mail',
+            text: 'Node.js testing mail for GeeksforGeeks'
+        };
+
+        mailTransporter.sendMail(mailDetails)
+        res.status(200).json({"message":"email sent"})
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+
+router.get('/user', async (req, res) => { //authenticateToken
     try {
         const recipeList = await User.find()
         if (!recipeList) throw new Error('No List found')
@@ -69,7 +87,7 @@ router.get('/', async (req, res) => { //authenticateToken
     }
 })
 
-router.get('/clear', async (req, res) => {
+router.get('/user/clear', async (req, res) => {
     try {
         const removed = await User.deleteMany()
         res.status(200).json({ message: "Deleted All Users" })
@@ -77,7 +95,6 @@ router.get('/clear', async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 })
-
 
 router.get('/user/current', authenticateToken, async (req, res) => { //authenticateToken
     try {
@@ -89,7 +106,7 @@ router.get('/user/current', authenticateToken, async (req, res) => { //authentic
     }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/user/:id', async (req, res) => {
     const { id } = req.params
     try {
         const recipe = await User.findById(id)
@@ -100,7 +117,7 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/user/:id', async (req, res) => {
     const { id } = req.params
     try {
         const removed = await User.findByIdAndDelete(id)

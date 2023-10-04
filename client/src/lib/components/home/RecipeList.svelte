@@ -6,6 +6,7 @@
 	import QuillDisplay from "$components/form/QuillDisplay.svelte";
     import RecipeTags from "$components/recipe/RecipeTags.svelte";
 	import Recipe from "$components/recipe/Recipe.svelte";
+	import Image from "$components/image/Image.svelte";
 
 	export let recipes: RecipeInterface[];
 
@@ -35,9 +36,9 @@
             <!-- <Panel recipe={recipe} /> -->
             <a href="recipe/{recipe.handle || recipe._id}" class="card bg-initial card-hover overflow-hidden">
                 <div class="h-full flex flex-col">
-                    <!-- <header class="card-header">
-                        
-                    </header> -->
+                    <header class="card-header p-0">
+                            <Image image={recipe.image} css="max-h-64 w-full object-cover"/>
+                    </header>
                     <section class="p-4 h-full">
                         <div class="flex justify-between flex-wrap">
                             <h3 class="h3">{recipe.title}</h3>

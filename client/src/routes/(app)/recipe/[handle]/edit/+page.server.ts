@@ -41,7 +41,6 @@ export async function load(event) {
 }
 export const actions = {
     update: async(event) => {
-        console.log("Normal")
         const formData = await event.request.formData();
 
         const file = formData.get("image");

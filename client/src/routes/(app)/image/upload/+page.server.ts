@@ -9,8 +9,6 @@ export const actions = {
     update: async(event) => {
         const formData = await event.request.formData();
 
-        console.log(formData)
-
         let form = await superValidate(formData, imageSchema)
 
         if (!form.valid){

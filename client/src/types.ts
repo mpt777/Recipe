@@ -6,6 +6,7 @@ type UserInterface = {
 type ImageInterface = {
     _id: string,
     src: string,
+    title: string,
     name: string,
     alt: string,
     createBy: UserInterface,

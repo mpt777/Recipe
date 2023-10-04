@@ -145,8 +145,9 @@
                 </div>
 
                 <Card hhr={true}>
+                    <div slot="header" class="p-2 text-xl">Image</div>
                     <div slot="content" class="p-4 space-y-4 max-w-sm">
-                        <ImageModalOpen image={recipe.image} imageStore={imageStore}/>
+                        <ImageModalOpen image={recipe.image} />
                     </div>
                 </Card>
 

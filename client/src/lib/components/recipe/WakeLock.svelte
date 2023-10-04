@@ -5,7 +5,6 @@
     $: value = false;
   
     $: {
-        console.log(value)
         value ? requestWakeLock() : releaseWakeLock();
     }
     const requestWakeLock = async () => {

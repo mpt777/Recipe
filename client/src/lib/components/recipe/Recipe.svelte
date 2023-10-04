@@ -9,6 +9,7 @@
 	import RecipeTags from "./RecipeTags.svelte";
 	import { pluralize } from "$scripts/humanize";
 	import WakeLock from "./WakeLock.svelte";
+    import Image from "$components/image/Image.svelte"
     
     export let recipe: RecipeInterface;
     
@@ -43,6 +44,8 @@
 
             <RecipeTags tags={recipe.tags} css="justify-center"/>
 
+            <Image image={recipe.image} />
+
             <div class="flex gap-3 flex-wrap text-center justify-center items-center">
                 <div>
                     <!-- <Label label="System"/> -->
@@ -73,6 +76,7 @@
                 <div>Prep Time: {recipe.prepTime.amount} {pluralize(recipe.prepTime.unit, recipe.prepTime.amount)}</div>
                 <div>Servings: {recipe.servings * parseFloat(scalar)}</div>
             </div>
+
         </div>
 
         <hr>
