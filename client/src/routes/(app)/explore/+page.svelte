@@ -2,12 +2,24 @@
 	import { page } from "$app/stores";
 	import RecipeList from "$components/home/RecipeList.svelte";
 	import RecipePanel from "$components/home/RecipePanel.svelte";
+	import iapi from "$utils/iapi.js";
 	import { Paginator, type PaginationSettings } from "@skeletonlabs/skeleton";
 
 	export let data;
 
-	let recipies : [RecipeInterface] = data.recipes;
+	let recipes : [RecipeInterface] = data.recipes;
 	let paginationSettings = data.pageSettings;
+
+	let search = $page.url.search 
+
+	async function updateRecipes(search) {
+		const response = await iapi(`recipe/recipe${search}`); // Make an API request
+		recipes = await response.json();
+	}
+
+	$:{
+		updateRecipes($page.url.search )
+	}
 
 	function onPageChange(e: CustomEvent): void {
 		console.log('Paginator - event:page', e.detail);
@@ -31,12 +43,11 @@
 
 	<div class="p-4">
 		<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-			{#each recipies as recipe}
+			{#each recipes as recipe}
 				<RecipePanel recipe={recipe} />
 			{/each}
 		</section>
 	</div>
-
 
 
 </div>

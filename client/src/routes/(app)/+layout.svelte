@@ -7,6 +7,7 @@
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { loginUser } from '$scripts/auth';
 	import { onMount } from 'svelte';
+	import Input from '$components/form/Input.svelte';
 
 	import { getDrawerStore } from "@skeletonlabs/skeleton";
 	import Breadcrumb from '$components/utils/Breadcrumb.svelte';
@@ -49,6 +50,12 @@
 			
 			
 			<svelte:fragment slot="trail">
+				<form method="GET" action="/explore">
+					<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
+						<button><i class="ri-search-line"></i></button>
+						<Input placeholder="Search..." name="search" baseClass=""/>
+					</div>
+				</form>
 				<LightSwitch/>
 				
 				{#if $page.data.user}

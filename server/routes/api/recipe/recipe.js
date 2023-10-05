@@ -1,7 +1,10 @@
 import { Router } from 'express'
 import { Recipe } from '../../../models/recipe/Recipe.js'
 import {authenticateToken, generateAccessToken} from '../../../middleware/auth.js'
-import { namesToIds } from '../../../models/recipe/Tag.js'
+import { Tag, namesToIds } from '../../../models/recipe/Tag.js'
+
+import { User } from "../../../models/auth/User.js"
+
 
 import {responseErrorHandler} from '../../../errors/errorHandler.js'
 import {slugify} from '../../../utils/humanize.js'
@@ -17,6 +20,22 @@ router.get('/', async (req, res) => {
 
         if (parameters.createdBy) {
             query.where('createdBy').equals(parameters.createdBy);
+        }
+        if (parameters.search) {
+            const p = parameters.search;
+
+            // Create an array of conditions for the $or operator
+            const orConditions = [
+              { title: { $regex: p, $options: 'i' } },
+              { handle: { $regex: p, $options: 'i' } },
+              { description: { $regex: p, $options: 'i' } },
+              { instructions: { $regex: p, $options: 'i' } },
+              { createdBy: { $in: await User.find({ username: { $regex: p, $options: 'i' } }) } },
+              { tags: { $in: await Tag.find({ name: { $regex: p, $options: 'i' } }) } },
+            ];
+            
+            // Construct the main query
+            query.where({ $or: orConditions });
         }
         let recipeList = await query.exec();
 
