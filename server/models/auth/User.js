@@ -21,7 +21,9 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         select: false,
-    }
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date
 })
 
 // Method to set salt and hash the password for a user 
@@ -42,6 +44,26 @@ UserSchema.methods.validPassword = function(password) {
     this.salt, 1000, 64, `sha512`).toString(`hex`); 
     return this.hash === hash; 
 }; 
+
+UserSchema.methods.getResetPasswordToken = function() {
+    //Generate token
+    const resetToken = crypto.randomBytes(20).toString('hex');
+
+    //Hash and set to resetPasswordToken
+    this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex')
+
+    //Set token expire time
+    this.resetPasswordExpire = Date.now() + 30 * 60 * 1000
+
+    return resetToken
+}
+
+UserSchema.methods.cleanJSON = function() {
+    var obj = this.toObject();
+    delete obj.hash;
+    delete obj.salt;
+    return obj;
+   }
 
 export const User = model('User', UserSchema)
 

@@ -70,6 +70,8 @@ router.post('/:id', authenticateToken, async (req, res) => {
 
         let recipe = await Recipe.findByHandleOrId(id)
 
+        if (!recipe.UserIsCreatedBy(req.user._id)) throw Error("Recipe was created by someone else. Cannot Edit")
+
         recipe = await Recipe.findByIdAndUpdate(recipe._id, req.body)
         if (!recipe) throw Error('Something went wrong ')
 
@@ -84,6 +86,8 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     const { id } = req.params
     try {
         const recipe = await Recipe.findByHandleOrId(id)
+
+        if (!recipe.UserIsCreatedBy(req.user._id)) throw Error("Recipe was created by someone else. Cannot Edit")
 
         const removed = await Recipe.findByIdAndDelete(recipe._id, req.body)
         // const removed = await Recipe.findById(id)

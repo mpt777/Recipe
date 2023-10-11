@@ -1,6 +1,6 @@
 <script>
     import { onMount } from "svelte";
-    import iapi from "$utils/iapi";
+    import { iapi } from "$utils/api";
 
     export let form;
     import Field from "$components/form/Field.svelte";

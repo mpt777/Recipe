@@ -1,7 +1,7 @@
 
 import { recipeSchema } from '$lib/forms/recipe.form';
 import { Message, addMessage } from '$scripts/message';
-import iapi from '$utils/iapi';
+import { iapi, papi } from '$utils/api';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { setError, superValidate } from 'sveltekit-superforms/server';
 
@@ -53,7 +53,7 @@ export const actions = {
 
         let ingredients = form.data.ingredients;
 
-        const response = await event.fetch(`http://server:3000/api/recipe/recipe/${event.params.handle}`, {
+        const response = await papi(event.fetch, `recipe/recipe/${event.params.handle}`, {
             method: "POST",
             headers: {
                 "Content-Type":"application/json"
@@ -77,7 +77,7 @@ export const actions = {
             if (element.delete) {
                 if (element._id) {
                     element.recipe = event.params.handle;
-                    await event.fetch(`http://server:3000/api/recipe/ingredient/${element._id}`, {
+                    await papi(event.fetch, `recipe/ingredient/${element._id}`, {
                         method: "DELETE",
                         headers: {
                             "Content-Type":"application/json"
@@ -89,7 +89,7 @@ export const actions = {
             }
             else {
                 element.recipe = event.params.handle;
-                let response = await event.fetch(`http://server:3000/api/recipe/ingredient/${element._id}`, {
+                let response = await papi(event.fetch, `recipe/ingredient/${element._id}`, {
                     method: "POST",
                     headers: {
                         "Content-Type":"application/json"
@@ -104,7 +104,7 @@ export const actions = {
     },
     delete: async({request, params, fetch, cookies}) => {
 
-        const response = await fetch(`http://server:3000/api/recipe/recipe/${params.handle}`, {
+        const response = await papi(fetch, `recipe/recipe/${params.handle}`, {
             method: "DELETE",
         })
 

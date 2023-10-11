@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.post('/:id', async (req, res) => {
+router.post('/:id', authenticateToken, async (req, res) => {
     const { id } = req.params
     try {
         const obj = await Ingredient.findByIdAndUpdate(id, req.body)

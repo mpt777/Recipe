@@ -40,7 +40,7 @@
 
 <AppShell slotSidebarLeft="w-0 md:w-52 bg-surface-500/10">
 	<svelte:fragment slot="header">
-		<AppBar>
+		<AppBar padding="py-2 px-4">
 			<svelte:fragment slot="lead">
 				<button class="md:hidden btn btn-sm-mr-4" on:click={drawerOpen}>
 					<i class="ri-menu-line"></i>

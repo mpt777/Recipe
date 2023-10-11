@@ -1,4 +1,5 @@
 import { page } from '$app/stores';
+import { papi } from '$utils/api';
 import { fail, redirect } from '@sveltejs/kit';
 
 export const actions = {
@@ -36,7 +37,7 @@ export const actions = {
         if (!event.locals.user){
             return fail(400, {message: "Must be logged in to add recipe", level:"warning"})
         }
-        const response = await event.fetch("http://server:3000/api/recipe/recipe", {
+        const response = await papi(event.fetch, "recipe/recipe", {
             method: "POST",
             headers:{
                 "Content-Type":"application/json"

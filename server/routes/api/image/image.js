@@ -35,7 +35,7 @@ const upload = multer({ storage: storage });
 // const upload = multer({ storage: multer.memoryStorage() });
 
   // Handle file upload request
-router.post('/upload', upload.single("file"), async (req, res) => {
+router.post('/upload', authenticateToken, upload.single("file"), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).send('No files were uploaded.');
@@ -54,6 +54,23 @@ router.post('/upload', upload.single("file"), async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 });
+
+router.post('/:id', authenticateToken, upload.single("file"), async (req, res) => {
+    const { id } = req.params
+    try {
+        let image = await Image.findByIdAndUpdate(id, req.body)
+        if (req.file) {
+            image.src = req.file.path
+            image.name = req.file.filename
+        }
+        image.save()
+
+        res.status(200).json(image);
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
 
 router.get('/', authenticateToken, async (req, res) => {
     try {
@@ -100,23 +117,6 @@ router.get('/:id', async (req, res) => {
         const image = await Image.findById(id)
         if (!image) throw new Error('No Recipe found')
         res.status(200).json(image)
-    } catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-})
-
-router.post('/:id', upload.single("file"), async (req, res) => {
-    const { id } = req.params
-    try {
-        let image = await Image.findByIdAndUpdate(id, req.body)
-        if (req.file) {
-            image.src = req.file.path
-            image.name = req.file.filename
-        }
-        image.save()
-
-        res.status(200).json(image);
-
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

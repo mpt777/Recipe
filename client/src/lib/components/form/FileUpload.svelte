@@ -1,5 +1,5 @@
 <script>
-    import iapi from "$utils/iapi";
+    import { iapi } from "$utils/api";
     let file = null;
     let uploading = false;
     let uploadProgress = 0;

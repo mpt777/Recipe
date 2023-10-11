@@ -2,7 +2,7 @@
 	import { page } from "$app/stores";
 	import RecipeList from "$components/home/RecipeList.svelte";
 	import RecipePanel from "$components/home/RecipePanel.svelte";
-	import iapi from "$utils/iapi.js";
+	import { iapi } from "$utils/api";
 	import { Paginator, type PaginationSettings } from "@skeletonlabs/skeleton";
 
 	export let data;

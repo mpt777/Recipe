@@ -10,7 +10,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import { imageSchema } from '$lib/forms/recipe.form';
     import { page } from '$app/stores';
-	import iapi from '$utils/iapi';
+	import { iapi } from '$utils/api';
 	const modalStore = getModalStore();
 
     export let image

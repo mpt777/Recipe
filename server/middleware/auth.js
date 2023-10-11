@@ -16,7 +16,7 @@ export function authenticateToken(req, res, next) {
   })
 }
 
-export function generateAccessToken(username) {
-  return jwt.sign({username}, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+export function generateAccessToken(user) {
+  return jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
 }
 

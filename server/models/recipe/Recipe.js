@@ -78,6 +78,11 @@ RecipeSchema.pre('findOneAndDelete', function(next){_deleteRelated(next, this)})
 RecipeSchema.pre('deleteOne', function(next){_deleteRelated(next, this)})
 RecipeSchema.pre('deleteMany', function(next){_deleteRelated(next, this)})
 
+
+RecipeSchema.methods.UserIsCreatedBy = async function(userId) {
+    return this.createdBy.toString() === userId
+}
+
 export const Recipe = model('Recipe', RecipeSchema)
 
 Recipe.findByHandleOrId = async function(handleOrId) {
@@ -91,4 +96,3 @@ Recipe.findByHandleOrId = async function(handleOrId) {
     }
     return await Recipe.findOne({handle: handleOrId})
 }
-

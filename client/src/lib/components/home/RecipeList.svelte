@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import iapi from "$utils/iapi";
+    import { iapi } from "$utils/api";
 	import { Avatar } from "@skeletonlabs/skeleton";
     import { humanizeDate } from "$scripts/date";
 	import QuillDisplay from "$components/form/QuillDisplay.svelte";

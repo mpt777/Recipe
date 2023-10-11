@@ -24,10 +24,10 @@ dotenv.config()
 
 app.use(cors())
 app.use(express.json());
-app.use('/api/recipe/recipe', RecipeRoutes)
-app.use('/api/recipe/ingredient', IngredientRoutes)
-app.use('/api/common/auth', AuthRoutes)
-app.use('/api/common/image', ImageRoutes)
+app.use('/api/v1/recipe/recipe', RecipeRoutes)
+app.use('/api/v1/recipe/ingredient', IngredientRoutes)
+app.use('/api/v1/common/auth', AuthRoutes)
+app.use('/api/v1/common/image', ImageRoutes)
 
 app.use(session({
     secret: process.env.TOKEN_SECRET,

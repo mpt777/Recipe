@@ -1,5 +1,5 @@
 import RecipeList from '$components/home/RecipeList.svelte';
-import iapi from '$utils/iapi';
+import { iapi } from '$utils/api';
 
 export async function load({ params }) {
     

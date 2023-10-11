@@ -10,6 +10,10 @@
 // });
 
 
-export default async function iapi(endpoint, data){
-    return fetch(`http://localhost:8080/api/${endpoint}`, data)
+export async function iapi(endpoint, data){
+    return fetch(`http://localhost:8080/api/v1/${endpoint}`, data)
+}
+
+export async function papi(fetch, endpoint, data) {
+    return fetch(`http://server:3000/api/v1/${endpoint}`, data)
 }

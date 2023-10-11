@@ -6,7 +6,7 @@
 	// Stores
 	import { getModalStore } from '@skeletonlabs/skeleton';
     import Image from "$components/image/Image.svelte"
-	import iapi from '$utils/iapi';
+	import { iapi } from '$utils/api';
 	import { onMount } from 'svelte';
 	const modalStore = getModalStore();
 

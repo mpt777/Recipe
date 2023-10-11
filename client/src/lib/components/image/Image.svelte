@@ -5,5 +5,5 @@
 
 
 {#if image}
-    <img src="/api/common/image/file/{image._id}" alt="{image.alt}" class={css}>
+    <img src="/api/v1/common/image/file/{image._id}" alt="{image.alt}" class={css}>
 {/if}

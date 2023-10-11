@@ -1,6 +1,7 @@
 import { fail, redirect, type RequestEvent } from "@sveltejs/kit";
 import { setAuthToken } from "$utils/auth";
 import { addMessage, Message } from "$scripts/message";
+import { papi } from "$utils/api"
 
 export async function loginUser(event : RequestEvent){
     const data = await event.request.formData();
@@ -8,14 +9,13 @@ export async function loginUser(event : RequestEvent){
     let jsonData = {};
     data.forEach((value, key) => jsonData[key] = value);
 
-    const response = await event.fetch("http://server:3000/api/common/auth/login", {
+    const response = await papi(event.fetch, "common/auth/login", {
         method: "POST",
         headers:{
             "Content-Type":"application/json"
         },
         body: JSON.stringify(jsonData)
     });
-
     
     let responseData = await response.json()
 
@@ -41,7 +41,7 @@ export async function signupUser(event: RequestEvent){
     let jsonData = {};
     data.forEach((value, key) => jsonData[key] = value);
 
-    const response = await event.fetch("http://server:3000/api/common/auth/signup", {
+    const response = await papi(event.fetch, "common/auth/signup", {
         method: "POST",
         headers:{
             "Content-Type":"application/json"
